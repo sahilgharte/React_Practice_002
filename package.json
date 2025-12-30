@@ -1,0 +1,23 @@
+{
+  "name": "001",
+  "version": "1.0.0",
+  "description": "developed by Sahil Gharte",
+  "homepage": "https://github.com/sahilgharte/React_Practice_002#readme",
+  "bugs": {
+    "url": "https://github.com/sahilgharte/React_Practice_002/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sahilgharte/React_Practice_002.git"
+  },
+  "license": "ISC",
+  "author": "Sahil Gharte",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "parcel": "^2.16.3"
+  }
+}
