@@ -113,6 +113,19 @@ Today marked the shift from "Learning Syntax" to "Building Systems." We started 
 - [x] **Phase 2: Low-Level Design (LLD):** Breaking down the UI into a **Component Hierarchy**.
 - [x] **Phase 3: Code Structure:** Finalized the main layout (App Shell) which holds the application together.
 - [x] **Component Decomposition:** Split the "Monolith" into small, reusable parts.
+### 🚀 Progress
+- **Shifted to React:** Officially moved the development process to the React framework.
+- **UI Refresh:** Implemented initial UI changes and container structures using JSX.
+
+### 🧠 Key Learnings: Styling
+- **Inline Styling Mechanism:** - Learned that in React, the `style` attribute accepts a **JavaScript Object** instead of a CSS string.
+  - *Example:* Defined styles as variables in the script (e.g., `const containerStyle = { color: 'blue' }`) and assigned them to the `div`.
+
+- **⚠️ Best Practice Alert:** - While inline styling works for quick logic, I learned it is generally **not the preferred way** to write CSS in production.
+  - *Drawbacks:* It clutters the component code, causes performance issues on large renders, and lacks support for essential CSS features like Media Queries and Pseudo-classes (`:hover`, `:focus`).
+
+### 🔜 Next Steps
+- Explore better styling alternatives (CSS Modules or Tailwind) to fix the inline styling drawbacks.
 
 <details>
 <summary><b>📐 Click to see the Component Architecture</b></summary>
