@@ -103,6 +103,40 @@ Moved from the "Hard Way" (`React.createElement`) to the "Developer Way" (**JSX*
 
 ---
 
+### ✅ Day 04: Talk is Cheap, Show Me the Code
+**Date:** 2nd Jan 2026
+
+Today marked the shift from "Learning Syntax" to "Building Systems." We started our main project (Food Ordering App) not by writing code, but by **Planning** first.
+
+#### 🛠️ Key Concepts Mastered:
+- [x] **Phase 1: Planning & Design:** Learned that coding is the *last* step. First comes the UI Mockup and Requirement Analysis.
+- [x] **Phase 2: Low-Level Design (LLD):** Breaking down the UI into a **Component Hierarchy**.
+- [x] **Phase 3: Code Structure:** Finalized the main layout (App Shell) which holds the application together.
+- [x] **Component Decomposition:** Split the "Monolith" into small, reusable parts.
+
+<details>
+<summary><b>📐 Click to see the Component Architecture</b></summary>
+
+We visualized the application as a Tree of Components.
+
+**The App Layout:**
+```text
+AppLayout (Parent)
+  ├── Header Component
+  │     ├── Logo
+  │     └── Nav Items
+  │
+  ├── Body Component (Main Container)
+  │     ├── Search Bar
+  │     └── Restaurant Container
+  │           └── Restaurant Card
+  │
+  └── Footer Component
+        ├── Copyright
+        └── Links
+
+---
+
 ### 🔜 Upcoming Goals
 - [ ] **Episode 4:** Talk is Cheap, Show me the Code (Components & Props).
 - [ ] **Episode 5:** Let's get Hooked (State & Hooks).

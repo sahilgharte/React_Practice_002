@@ -1,3 +1,144 @@
-#heading {
-    color: red;
+.header-container {
+    background-color: #f8f8f8;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 25px;
+}
+
+.header-logo img {
+    border-radius: 50%;
+    
+}
+
+.header-logo img:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+
+.header-ul {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+}
+
+.header-ul li {
+    display: inline;
+    margin: 0 15px;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.header-ul li:hover {
+    color: #ff6347;
+    transition: color 0.3s;
+}
+
+.search-bar {
+    text-align: center;
+    margin: 20px 0;
+    padding: 10px;
+}
+
+.search-bar input {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    width: 200px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: #ccc;
+    box-shadow: 2px 0px 5px #ccc;
+}
+
+.search-bar button {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: none;
+    background-color: #ff6347;
+    color: white;
+    cursor: pointer;
+    margin-left: 10px;
+}
+/* Commented out restaurant card container styles as added style object in the JS */
+/* .restaurant-card-container {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+} */
+
+.restaurant-card-container:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+}
+
+.restaurant-card-content{
+    display: grid;
+    transition: 0.05s;
+    cursor: pointer;
+    gap: 12px;
+    grid-auto-flow: row;
+    justify-content: stretch;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 0px;
+}
+
+.restaurant-card-footer {
+    margin-left: 12px;
+}
+.restaurant-image img {
+    height: 190px;
+    width: 280px;
+    border-radius: 10px;
+}
+
+
+.restaurant-name {
+    margin: 0px;
+    font-family: Gilroy;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: -0.45px;
+    color: rgba(2, 6, 12, 0.92);
+    overflow: hidden;
+    width: 100%;
+    display: -webkit-box;
+    overflow-wrap: break-word;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.restaurant-details {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+
+.restaurant-delivery-time,
+.restaurant-cost-for-two {
+    font-size: 16px;
+    color: #555;
+}
+.restaurant-cuisine {
+    font-size: 16px;
+    color: #777;
+}
+
+.restaurant-rating {
+    font-size: 16px;
+    color: #ff6347;
 }
