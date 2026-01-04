@@ -1,4 +1,11 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Forces the app to take exactly 100% of the viewport height */
+}
+
 .header-container {
+    flex-shrink: 0;
     background-color: #f8f8f8;
     padding: 20px;
     text-align: center;
@@ -38,6 +45,17 @@
     transition: color 0.3s;
 }
 
+.body{
+    flex: 1;
+}
+.footer{
+    flex-shrink: 0;
+    background-color: #f1f1f1;
+    padding: 10px;
+    text-align: center;
+    border-radius: 15px;
+}
+
 .search-bar {
     text-align: center;
     margin: 20px 0;
@@ -69,14 +87,14 @@
     margin-left: 10px;
 }
 /* Commented out restaurant card container styles as added style object in the JS */
-/* .restaurant-card-container {
+.restaurant-card-container {
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
-} */
+    margin: 10px;
+}
 
 .restaurant-card-container:hover{
     transform: translateY(-5px);

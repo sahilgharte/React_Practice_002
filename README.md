@@ -127,6 +127,32 @@ Today marked the shift from "Learning Syntax" to "Building Systems." We started 
 ### 🔜 Next Steps
 - Explore better styling alternatives (CSS Modules or Tailwind) to fix the inline styling drawbacks.
 
+### 🧠 Core Concepts Learned
+- **Props (Properties):**
+  - **Mental Model:** Props are simply "arguments passed to a function."
+  - **Behavior:** They allow data to flow from Parent → Child and are **read-only** (immutable).
+  
+- **Config-Driven UI:**
+  - **Concept:** The UI structure is not hardcoded but dictated by the backend data (e.g., specific offers/layouts for different cities like Mumbai vs. Delhi).
+  - **Industry Standard:** This allows for dynamic updates without deploying new frontend code.
+
+- **List Rendering & Keys:**
+  - **The Rule:** Always pass a unique `key` prop when using `.map()`.
+  - **The "Why":** React's **Reconciliation Algorithm** uses keys to identify which specific items have changed, added, or removed.
+  - **Optimization:** Using unique IDs (from API) instead of Array Indexes prevents performance bottlenecks and unnecessary re-renders of the entire list.
+
+### 🛠️ Architecture & Code Changes
+- **API Integration (Swiggy):**
+  - Implemented the `fetch()` logic to consume live data from the Swiggy Public API.
+  - **Separation of Concerns:** Moved hardcoded URL strings to a dedicated `utils/constants.js` file to avoid magic strings in the codebase.
+
+- **Component Structure:**
+  - **Parent:** Fetches data and manages state.
+  - **Child (RestaurantCard):** Pure presentation component that receives data via `props`.
+
+### 📝 Note to Self
+> "Never use the array index as a key if the list order can change. Always use a unique ID."
+
 <details>
 <summary><b>📐 Click to see the Component Architecture</b></summary>
 

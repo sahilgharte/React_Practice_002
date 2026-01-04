@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom/client';
 
 
 
+// Inline Style Object for Restaurant Card Container
+// const RestaurantCardContainerStyle = {
+//     display: 'inline-block',
+//     border: '1px solid #ccc',
+//     borderRadius: '10px',
+//     padding: '15px',
+//     transition: 'transform 0.3s, box-shadow 0.3s',
+//     margin: '10px',
 
-const RestaurantCardContainerStyle = {
-    display: 'inline-block',
-    border: '1px solid #ccc',
-    borderRadius: '10px',
-    padding: '15px',
-    transition: 'transform 0.3s, box-shadow 0.3s',
-    margin: '10px',
-
-} 
+// } 
 
 const Header = () => {
     return (
@@ -43,7 +43,9 @@ const Body = () => {
                 <button>Search</button>
             </div>
             <div className='restaurant-cards'>
-                <RestaurantCards />
+                {restaurantList.map(restaurant => (
+                    <RestaurantCards key={restaurant.info.id} restaurant={restaurant.info} />
+                ))}
             </div>
         </div>
     )
@@ -51,29 +53,33 @@ const Body = () => {
 
 const Footer = () => {
     return (
-        <div>
+        <div className='footer'>
             <h1>This is Footer Component</h1>
         </div>
     )
 }
 
-const RestaurantCards = () => {
+const RestaurantCards = (props) => {
+
+    const {name, cloudinaryImageId, cuisines, avgRating, sla, costForTwo} = props?.restaurant;
+    const imageUrl = "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/" + cloudinaryImageId;
+      console.log(imageUrl);
     return (
-        <div className='restaurant-card-container' style={RestaurantCardContainerStyle}>
+        <div className='restaurant-card-container'>
             <div className='restaurant-card-content'>
                 <div className='restaurant-image'>
-                    <img src="data:image/jpeg;base64,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" alt="restaurant" />
+                    <img src={imageUrl} alt="restaurant" />
                 </div>
                 <div className='restaurant-card-footer'>
-                    <div className='restaurant-name'>Kochi Foods</div>
-                    <div className='restaurant-cuisine'>South Indian, North Indian </div>
+                    <div className='restaurant-name'>{name}</div>
+                    <div className='restaurant-cuisine'>{cuisines.join(", ")}</div>
 
                     <div className='restaurant-details'>
-                        <div className='restaurant-rating'>4.5 ⭐️</div>
-                    <div className='restaurant-delivery-time'>30 mins 🚚</div>
+                        <div className='restaurant-rating'>{avgRating} ⭐️</div>
+                    <div className='restaurant-delivery-time'>{sla.deliveryTime} mins 🚚</div>
                     </div>
 
-                    <div className='restaurant-cost-for-two'>₹400 💵</div>
+                    <div className='restaurant-cost-for-two'>{costForTwo} 💵</div>
                 </div>
             </div>
         </div>
@@ -83,7 +89,7 @@ const RestaurantCards = () => {
 // App Layout Component - Parent Component - would have 3 components header, body, footer.
 const AppLayout = () => {
     return (
-        <div>
+        <div className='app-container'>
             <Header />
             <Body />
             <Footer />
@@ -91,6 +97,721 @@ const AppLayout = () => {
     )
 }
 
+const restaurantList = [
+                                    {
+                                        "@type": "type.googleapis.com/swiggy.presentation.food.v2.Restaurant",
+                                        "info": {
+                                            "id": "1014920",
+                                            "name": "Pizza Hut",
+                                            "cloudinaryImageId": "RX_THUMBNAIL/IMAGES/VENDOR/2025/9/1/cd2e508e-4150-4ba5-b63b-3035322690dd_1014920.JPG",
+                                            "locality": "Panchavati",
+                                            "areaName": "Panchawati",
+                                            "costForTwo": "₹350 for two",
+                                            "cuisines": [
+                                                "Pizzas"
+                                            ],
+                                            "avgRating": 4.4,
+                                            "parentId": "721",
+                                            "avgRatingString": "4.4",
+                                            "totalRatingsString": "713",
+                                            "sla": {
+                                                "deliveryTime": 28,
+                                                "lastMileTravel": 4.7,
+                                                "serviceability": "SERVICEABLE",
+                                                "slaString": "25-30 mins",
+                                                "lastMileTravelString": "4.7 km",
+                                                "iconType": "ICON_TYPE_EMPTY"
+                                            },
+                                            "availability": {
+                                                "nextCloseTime": "2026-01-04 23:00:00",
+                                                "opened": true
+                                            },
+                                            "badges": {
+                                                "imageBadges": [
+                                                    {
+                                                        "imageId": "Rxawards/_CATEGORY-Pizza.png",
+                                                        "description": "Delivery!"
+                                                    }
+                                                ]
+                                            },
+                                            "isOpen": true,
+                                            "type": "F",
+                                            "badgesV2": {
+                                                "entityBadges": {
+                                                    "imageBased": {
+                                                        "badgeObject": [
+                                                            {
+                                                                "attributes": {
+                                                                    "description": "Delivery!",
+                                                                    "imageId": "Rxawards/_CATEGORY-Pizza.png"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "textBased": {},
+                                                    "textExtendedBadges": {}
+                                                }
+                                            },
+                                            "aggregatedDiscountInfoV3": {
+                                                "header": "ITEMS",
+                                                "subHeader": "AT ₹59"
+                                            },
+                                            "orderabilityCommunication": {
+                                                "title": {},
+                                                "subTitle": {},
+                                                "message": {},
+                                                "customIcon": {}
+                                            },
+                                            "differentiatedUi": {
+                                                "displayType": "ADS_UI_DISPLAY_TYPE_ENUM_DEFAULT",
+                                                "differentiatedUiMediaDetails": {
+                                                    "mediaType": "ADS_MEDIA_ENUM_IMAGE",
+                                                    "lottie": {},
+                                                    "video": {}
+                                                }
+                                            },
+                                            "reviewsSummary": {},
+                                            "displayType": "RESTAURANT_DISPLAY_TYPE_DEFAULT",
+                                            "restaurantOfferPresentationInfo": {},
+                                            "externalRatings": {
+                                                "aggregatedRating": {
+                                                    "rating": "--"
+                                                }
+                                            },
+                                            "ratingsDisplayPreference": "RATINGS_DISPLAY_PREFERENCE_SHOW_SWIGGY"
+                                        },
+                                        "analytics": {
+                                            "context": "seo-data-08203631-c585-4596-93bc-2e6869523382"
+                                        },
+                                        "cta": {
+                                            "link": "https://www.swiggy.com/city/nashik/pizza-hut-panchavati-panchawati-rest1014920",
+                                            "text": "RESTAURANT_MENU",
+                                            "type": "WEBLINK"
+                                        },
+                                        "widgetId": "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo"
+                                    },
+                                    {
+                                        "@type": "type.googleapis.com/swiggy.presentation.food.v2.Restaurant",
+                                        "info": {
+                                            "id": "70995",
+                                            "name": "Burger King",
+                                            "cloudinaryImageId": "RX_THUMBNAIL/IMAGES/VENDOR/2025/6/18/e83d79f6-3887-46ae-a1ec-6047e69bbbc1_70995.jpg",
+                                            "locality": "Patil Colony",
+                                            "areaName": "Ramdas Colony",
+                                            "costForTwo": "₹350 for two",
+                                            "cuisines": [
+                                                "Burgers",
+                                                "American"
+                                            ],
+                                            "avgRating": 4.4,
+                                            "parentId": "166",
+                                            "avgRatingString": "4.4",
+                                            "totalRatingsString": "38K+",
+                                            "sla": {
+                                                "deliveryTime": 38,
+                                                "lastMileTravel": 7.2,
+                                                "serviceability": "SERVICEABLE",
+                                                "slaString": "35-40 mins",
+                                                "lastMileTravelString": "7.2 km",
+                                                "iconType": "ICON_TYPE_EMPTY"
+                                            },
+                                            "availability": {
+                                                "nextCloseTime": "2026-01-05 05:00:00",
+                                                "opened": true
+                                            },
+                                            "badges": {
+                                                "imageBadges": [
+                                                    {
+                                                        "imageId": "Rxawards/_CATEGORY-Burger.png",
+                                                        "description": "Delivery!"
+                                                    }
+                                                ]
+                                            },
+                                            "isOpen": true,
+                                            "type": "F",
+                                            "badgesV2": {
+                                                "entityBadges": {
+                                                    "imageBased": {
+                                                        "badgeObject": [
+                                                            {
+                                                                "attributes": {
+                                                                    "description": "Delivery!",
+                                                                    "imageId": "Rxawards/_CATEGORY-Burger.png"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "textBased": {},
+                                                    "textExtendedBadges": {}
+                                                }
+                                            },
+                                            "aggregatedDiscountInfoV3": {
+                                                "header": "ITEMS",
+                                                "subHeader": "AT ₹48"
+                                            },
+                                            "orderabilityCommunication": {
+                                                "title": {},
+                                                "subTitle": {},
+                                                "message": {},
+                                                "customIcon": {}
+                                            },
+                                            "differentiatedUi": {
+                                                "displayType": "ADS_UI_DISPLAY_TYPE_ENUM_DEFAULT",
+                                                "differentiatedUiMediaDetails": {
+                                                    "mediaType": "ADS_MEDIA_ENUM_IMAGE",
+                                                    "lottie": {},
+                                                    "video": {}
+                                                }
+                                            },
+                                            "reviewsSummary": {},
+                                            "displayType": "RESTAURANT_DISPLAY_TYPE_DEFAULT",
+                                            "restaurantOfferPresentationInfo": {},
+                                            "externalRatings": {
+                                                "aggregatedRating": {
+                                                    "rating": "--"
+                                                }
+                                            },
+                                            "ratingsDisplayPreference": "RATINGS_DISPLAY_PREFERENCE_SHOW_SWIGGY"
+                                        },
+                                        "analytics": {
+                                            "context": "seo-data-08203631-c585-4596-93bc-2e6869523382"
+                                        },
+                                        "cta": {
+                                            "link": "https://www.swiggy.com/city/nashik/burger-king-patil-colony-ramdas-colony-rest70995",
+                                            "text": "RESTAURANT_MENU",
+                                            "type": "WEBLINK"
+                                        },
+                                        "widgetId": "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo"
+                                    },
+                                    {
+                                        "@type": "type.googleapis.com/swiggy.presentation.food.v2.Restaurant",
+                                        "info": {
+                                            "id": "371947",
+                                            "name": "Domino's Pizza",
+                                            "cloudinaryImageId": "RX_THUMBNAIL/IMAGES/VENDOR/2025/11/11/eb852042-d636-4e35-afc3-3f6d10adbe03_371947.JPG",
+                                            "locality": "Pokar Arcade",
+                                            "areaName": "Panchavati",
+                                            "costForTwo": "₹400 for two",
+                                            "cuisines": [
+                                                "Pizzas",
+                                                "Italian",
+                                                "Pastas",
+                                                "Desserts"
+                                            ],
+                                            "avgRating": 4.1,
+                                            "parentId": "2456",
+                                            "avgRatingString": "4.1",
+                                            "totalRatingsString": "2.0K+",
+                                            "sla": {
+                                                "deliveryTime": 25,
+                                                "lastMileTravel": 0.3,
+                                                "serviceability": "SERVICEABLE",
+                                                "slaString": "20-25 mins",
+                                                "lastMileTravelString": "0.3 km",
+                                                "iconType": "ICON_TYPE_EMPTY"
+                                            },
+                                            "availability": {
+                                                "nextCloseTime": "2026-01-04 23:59:00",
+                                                "opened": true
+                                            },
+                                            "badges": {
+                                                "imageBadges": [
+                                                    {
+                                                        "imageId": "android/static-assets/icons/big_rx.png",
+                                                        "description": "bolt!"
+                                                    },
+                                                    {
+                                                        "imageId": "Rxawards/_CATEGORY-Pizza.png",
+                                                        "description": "Delivery!"
+                                                    }
+                                                ]
+                                            },
+                                            "isOpen": true,
+                                            "type": "F",
+                                            "badgesV2": {
+                                                "entityBadges": {
+                                                    "imageBased": {
+                                                        "badgeObject": [
+                                                            {
+                                                                "attributes": {
+                                                                    "description": "bolt!",
+                                                                    "imageId": "android/static-assets/icons/big_rx.png"
+                                                                }
+                                                            },
+                                                            {
+                                                                "attributes": {
+                                                                    "description": "Delivery!",
+                                                                    "imageId": "Rxawards/_CATEGORY-Pizza.png"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "textBased": {},
+                                                    "textExtendedBadges": {}
+                                                }
+                                            },
+                                            "aggregatedDiscountInfoV3": {
+                                                "header": "ITEMS",
+                                                "subHeader": "AT ₹59"
+                                            },
+                                            "orderabilityCommunication": {
+                                                "title": {},
+                                                "subTitle": {},
+                                                "message": {},
+                                                "customIcon": {}
+                                            },
+                                            "differentiatedUi": {
+                                                "displayType": "ADS_UI_DISPLAY_TYPE_ENUM_DEFAULT",
+                                                "differentiatedUiMediaDetails": {
+                                                    "mediaType": "ADS_MEDIA_ENUM_IMAGE",
+                                                    "lottie": {},
+                                                    "video": {}
+                                                }
+                                            },
+                                            "reviewsSummary": {},
+                                            "displayType": "RESTAURANT_DISPLAY_TYPE_DEFAULT",
+                                            "restaurantOfferPresentationInfo": {},
+                                            "externalRatings": {
+                                                "aggregatedRating": {
+                                                    "rating": "--"
+                                                }
+                                            },
+                                            "ratingsDisplayPreference": "RATINGS_DISPLAY_PREFERENCE_SHOW_SWIGGY"
+                                        },
+                                        "analytics": {
+                                            "context": "seo-data-08203631-c585-4596-93bc-2e6869523382"
+                                        },
+                                        "cta": {
+                                            "link": "https://www.swiggy.com/city/nashik/dominos-pizza-pokar-arcade-panchavati-rest371947",
+                                            "text": "RESTAURANT_MENU",
+                                            "type": "WEBLINK"
+                                        },
+                                        "widgetId": "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo"
+                                    },
+                                    {
+                                        "@type": "type.googleapis.com/swiggy.presentation.food.v2.Restaurant",
+                                        "info": {
+                                            "id": "1072731",
+                                            "name": "Chinese Wok",
+                                            "cloudinaryImageId": "RX_THUMBNAIL/IMAGES/VENDOR/2025/4/4/8ea31706-9d1e-4aa0-bd9c-cf7b43b9d4a7_1072731.jpg",
+                                            "locality": "Lawate NagaR",
+                                            "areaName": "City Centre Mall Nashik",
+                                            "costForTwo": "₹250 for two",
+                                            "cuisines": [
+                                                "Chinese",
+                                                "Asian",
+                                                "Tibetan",
+                                                "Desserts"
+                                            ],
+                                            "avgRating": 4.1,
+                                            "parentId": "61955",
+                                            "avgRatingString": "4.1",
+                                            "totalRatingsString": "465",
+                                            "sla": {
+                                                "deliveryTime": 51,
+                                                "lastMileTravel": 8.1,
+                                                "serviceability": "SERVICEABLE",
+                                                "slaString": "50-60 mins",
+                                                "lastMileTravelString": "8.1 km",
+                                                "iconType": "ICON_TYPE_EMPTY"
+                                            },
+                                            "availability": {
+                                                "nextCloseTime": "2026-01-04 23:00:00",
+                                                "opened": true
+                                            },
+                                            "badges": {},
+                                            "isOpen": true,
+                                            "type": "F",
+                                            "badgesV2": {
+                                                "entityBadges": {
+                                                    "imageBased": {},
+                                                    "textBased": {},
+                                                    "textExtendedBadges": {}
+                                                }
+                                            },
+                                            "aggregatedDiscountInfoV3": {
+                                                "header": "50% OFF",
+                                                "discountTag": "FLAT DEAL"
+                                            },
+                                            "orderabilityCommunication": {
+                                                "title": {},
+                                                "subTitle": {},
+                                                "message": {},
+                                                "customIcon": {}
+                                            },
+                                            "differentiatedUi": {
+                                                "displayType": "ADS_UI_DISPLAY_TYPE_ENUM_DEFAULT",
+                                                "differentiatedUiMediaDetails": {
+                                                    "mediaType": "ADS_MEDIA_ENUM_IMAGE",
+                                                    "lottie": {},
+                                                    "video": {}
+                                                }
+                                            },
+                                            "reviewsSummary": {},
+                                            "displayType": "RESTAURANT_DISPLAY_TYPE_DEFAULT",
+                                            "restaurantOfferPresentationInfo": {},
+                                            "externalRatings": {
+                                                "aggregatedRating": {
+                                                    "rating": "--"
+                                                }
+                                            },
+                                            "ratingsDisplayPreference": "RATINGS_DISPLAY_PREFERENCE_SHOW_SWIGGY"
+                                        },
+                                        "analytics": {
+                                            "context": "seo-data-08203631-c585-4596-93bc-2e6869523382"
+                                        },
+                                        "cta": {
+                                            "link": "https://www.swiggy.com/city/nashik/chinese-wok-lawate-nagar-city-centre-mall-nashik-rest1072731",
+                                            "text": "RESTAURANT_MENU",
+                                            "type": "WEBLINK"
+                                        },
+                                        "widgetId": "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo"
+                                    },
+                                    {
+                                        "@type": "type.googleapis.com/swiggy.presentation.food.v2.Restaurant",
+                                        "info": {
+                                            "id": "278323",
+                                            "name": "Theobroma",
+                                            "cloudinaryImageId": "RX_THUMBNAIL/IMAGES/VENDOR/2025/12/26/a93e0e8d-927b-4b21-aa43-d05deec7268f_278323.JPG",
+                                            "locality": "Kalpataru Nagar",
+                                            "areaName": "Kalpataru Nagar",
+                                            "costForTwo": "₹400 for two",
+                                            "cuisines": [
+                                                "Bakery"
+                                            ],
+                                            "avgRating": 4.6,
+                                            "parentId": "1040",
+                                            "avgRatingString": "4.6",
+                                            "totalRatingsString": "2.2K+",
+                                            "sla": {
+                                                "deliveryTime": 32,
+                                                "lastMileTravel": 8,
+                                                "serviceability": "SERVICEABLE",
+                                                "slaString": "30-35 mins",
+                                                "lastMileTravelString": "8.0 km",
+                                                "iconType": "ICON_TYPE_EMPTY"
+                                            },
+                                            "availability": {
+                                                "nextCloseTime": "2026-01-05 00:00:00",
+                                                "opened": true
+                                            },
+                                            "badges": {
+                                                "imageBadges": [
+                                                    {
+                                                        "imageId": "Rxawards/_CATEGORY-Desserts.png",
+                                                        "description": "Delivery!"
+                                                    },
+                                                    {
+                                                        "imageId": "newg.png",
+                                                        "description": "Gourmet"
+                                                    }
+                                                ]
+                                            },
+                                            "isOpen": true,
+                                            "type": "F",
+                                            "badgesV2": {
+                                                "entityBadges": {
+                                                    "imageBased": {
+                                                        "badgeObject": [
+                                                            {
+                                                                "attributes": {
+                                                                    "description": "Delivery!",
+                                                                    "imageId": "Rxawards/_CATEGORY-Desserts.png"
+                                                                }
+                                                            },
+                                                            {
+                                                                "attributes": {
+                                                                    "description": "Gourmet",
+                                                                    "imageId": "newg.png"
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    "textBased": {},
+                                                    "textExtendedBadges": {}
+                                                }
+                                            },
+                                            "aggregatedDiscountInfoV3": {
+                                                "header": "50% OFF",
+                                                "discountTag": "FLAT DEAL"
+                                            },
+                                            "orderabilityCommunication": {
+                                                "title": {},
+                                                "subTitle": {},
+                                                "message": {},
+                                                "customIcon": {}
+                                            },
+                                            "differentiatedUi": {
+                                                "displayType": "ADS_UI_DISPLAY_TYPE_ENUM_DEFAULT",
+                                                "differentiatedUiMediaDetails": {
+                                                    "mediaType": "ADS_MEDIA_ENUM_IMAGE",
+                                                    "lottie": {},
+                                                    "video": {}
+                                                }
+                                            },
+                                            "reviewsSummary": {},
+                                            "displayType": "RESTAURANT_DISPLAY_TYPE_DEFAULT",
+                                            "restaurantOfferPresentationInfo": {},
+                                            "externalRatings": {
+                                                "aggregatedRating": {
+                                                    "rating": "4.6",
+                                                    "ratingCount": "383"
+                                                },
+                                                "source": "GOOGLE",
+                                                "sourceIconImageId": "v1704440323/google_ratings/rating_google_tag"
+                                            },
+                                            "ratingsDisplayPreference": "RATINGS_DISPLAY_PREFERENCE_SHOW_SWIGGY"
+                                        },
+                                        "analytics": {
+                                            "context": "seo-data-08203631-c585-4596-93bc-2e6869523382"
+                                        },
+                                        "cta": {
+                                            "link": "https://www.swiggy.com/city/nashik/theobroma-kalpataru-nagar-rest278323",
+                                            "text": "RESTAURANT_MENU",
+                                            "type": "WEBLINK"
+                                        },
+                                        "widgetId": "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo"
+                                    },
+                                    {
+                                        "@type": "type.googleapis.com/swiggy.presentation.food.v2.Restaurant",
+                                        "info": {
+                                            "id": "1275483",
+                                            "name": "McDonald's",
+                                            "cloudinaryImageId": "RX_THUMBNAIL/IMAGES/VENDOR/2025/12/1/47ac5908-7ff0-49dc-aeaf-ce06edbb91e5_1275483.jpg",
+                                            "locality": "Panchawati, Nashik",
+                                            "areaName": "Hariom arcade, Plot No-2",
+                                            "costForTwo": "₹400 for two",
+                                            "cuisines": [
+                                                "Burgers",
+                                                "Beverages",
+                                                "Cafe",
+                                                "Desserts"
+                                            ],
+                                            "avgRating": 4.4,
+                                            "parentId": "630",
+                                            "avgRatingString": "4.4",
+                                            "totalRatingsString": "28",
+                                            "sla": {
+                                                "deliveryTime": 11,
+                                                "lastMileTravel": 0.1,
+                                                "serviceability": "SERVICEABLE",
+                                                "slaString": "10-15 mins",
+                                                "lastMileTravelString": "0.1 km",
+                                                "iconType": "ICON_TYPE_EMPTY"
+                                            },
+                                            "availability": {
+                                                "nextCloseTime": "2026-01-04 22:45:00",
+                                                "opened": true
+                                            },
+                                            "badges": {},
+                                            "isOpen": true,
+                                            "type": "F",
+                                            "badgesV2": {
+                                                "entityBadges": {
+                                                    "imageBased": {},
+                                                    "textBased": {},
+                                                    "textExtendedBadges": {}
+                                                }
+                                            },
+                                            "aggregatedDiscountInfoV3": {
+                                                "header": "₹100 OFF",
+                                                "subHeader": "ABOVE ₹349",
+                                                "discountTag": "FLAT DEAL"
+                                            },
+                                            "orderabilityCommunication": {
+                                                "title": {},
+                                                "subTitle": {},
+                                                "message": {},
+                                                "customIcon": {}
+                                            },
+                                            "differentiatedUi": {
+                                                "displayType": "ADS_UI_DISPLAY_TYPE_ENUM_DEFAULT",
+                                                "differentiatedUiMediaDetails": {
+                                                    "mediaType": "ADS_MEDIA_ENUM_IMAGE",
+                                                    "lottie": {},
+                                                    "video": {}
+                                                }
+                                            },
+                                            "reviewsSummary": {},
+                                            "displayType": "RESTAURANT_DISPLAY_TYPE_DEFAULT",
+                                            "isNewlyOnboarded": true,
+                                            "restaurantOfferPresentationInfo": {},
+                                            "externalRatings": {
+                                                "aggregatedRating": {
+                                                    "rating": "--"
+                                                }
+                                            },
+                                            "ratingsDisplayPreference": "RATINGS_DISPLAY_PREFERENCE_SHOW_SWIGGY"
+                                        },
+                                        "analytics": {
+                                            "context": "seo-data-08203631-c585-4596-93bc-2e6869523382"
+                                        },
+                                        "cta": {
+                                            "link": "https://www.swiggy.com/city/nashik/mcdonalds-panchawati-hariom-arcade-plot-no-2-rest1275483",
+                                            "text": "RESTAURANT_MENU",
+                                            "type": "WEBLINK"
+                                        },
+                                        "widgetId": "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo"
+                                    },
+                                    {
+                                        "@type": "type.googleapis.com/swiggy.presentation.food.v2.Restaurant",
+                                        "info": {
+                                            "id": "235624",
+                                            "name": "KFC",
+                                            "cloudinaryImageId": "RX_THUMBNAIL/IMAGES/VENDOR/2025/10/17/2c7bfc10-799e-47bc-bfb1-a5d9d5440b26_235624.JPG",
+                                            "locality": "Collage Road \n",
+                                            "areaName": "College Road",
+                                            "costForTwo": "₹400 for two",
+                                            "cuisines": [
+                                                "Burgers",
+                                                "Fast Food",
+                                                "Rolls & Wraps"
+                                            ],
+                                            "avgRating": 4.2,
+                                            "parentId": "547",
+                                            "avgRatingString": "4.2",
+                                            "totalRatingsString": "9.2K+",
+                                            "sla": {
+                                                "deliveryTime": 38,
+                                                "lastMileTravel": 7.3,
+                                                "serviceability": "SERVICEABLE",
+                                                "slaString": "35-40 mins",
+                                                "lastMileTravelString": "7.3 km",
+                                                "iconType": "ICON_TYPE_EMPTY"
+                                            },
+                                            "availability": {
+                                                "nextCloseTime": "2026-01-05 04:00:00",
+                                                "opened": true
+                                            },
+                                            "badges": {},
+                                            "isOpen": true,
+                                            "type": "F",
+                                            "badgesV2": {
+                                                "entityBadges": {
+                                                    "imageBased": {},
+                                                    "textBased": {},
+                                                    "textExtendedBadges": {}
+                                                }
+                                            },
+                                            "aggregatedDiscountInfoV3": {
+                                                "header": "50% OFF",
+                                                "discountTag": "FLAT DEAL"
+                                            },
+                                            "orderabilityCommunication": {
+                                                "title": {},
+                                                "subTitle": {},
+                                                "message": {},
+                                                "customIcon": {}
+                                            },
+                                            "differentiatedUi": {
+                                                "displayType": "ADS_UI_DISPLAY_TYPE_ENUM_DEFAULT",
+                                                "differentiatedUiMediaDetails": {
+                                                    "mediaType": "ADS_MEDIA_ENUM_IMAGE",
+                                                    "lottie": {},
+                                                    "video": {}
+                                                }
+                                            },
+                                            "reviewsSummary": {},
+                                            "displayType": "RESTAURANT_DISPLAY_TYPE_DEFAULT",
+                                            "restaurantOfferPresentationInfo": {},
+                                            "externalRatings": {
+                                                "aggregatedRating": {
+                                                    "rating": "--"
+                                                }
+                                            },
+                                            "ratingsDisplayPreference": "RATINGS_DISPLAY_PREFERENCE_SHOW_SWIGGY"
+                                        },
+                                        "analytics": {
+                                            "context": "seo-data-08203631-c585-4596-93bc-2e6869523382"
+                                        },
+                                        "cta": {
+                                            "link": "https://www.swiggy.com/city/nashik/kfc-collage-road-college-road-rest235624",
+                                            "text": "RESTAURANT_MENU",
+                                            "type": "WEBLINK"
+                                        },
+                                        "widgetId": "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo"
+                                    },
+                                    {
+                                        "@type": "type.googleapis.com/swiggy.presentation.food.v2.Restaurant",
+                                        "info": {
+                                            "id": "185804",
+                                            "name": "Oven Story Pizza",
+                                            "cloudinaryImageId": "RX_THUMBNAIL/IMAGES/VENDOR/2025/5/29/bcc4805e-8cfb-4bd6-9f89-7952d3f7661a_185804.jpg",
+                                            "locality": "HATTE NAGAR",
+                                            "areaName": "HATTE NAGAR",
+                                            "costForTwo": "₹400 for two",
+                                            "cuisines": [
+                                                "Pizzas",
+                                                "Pastas",
+                                                "Italian",
+                                                "Desserts",
+                                                "Beverages"
+                                            ],
+                                            "avgRating": 4.3,
+                                            "parentId": "3534",
+                                            "avgRatingString": "4.3",
+                                            "totalRatingsString": "9.1K+",
+                                            "sla": {
+                                                "deliveryTime": 35,
+                                                "lastMileTravel": 7.3,
+                                                "serviceability": "SERVICEABLE",
+                                                "slaString": "30-40 mins",
+                                                "lastMileTravelString": "7.3 km",
+                                                "iconType": "ICON_TYPE_EMPTY"
+                                            },
+                                            "availability": {
+                                                "nextCloseTime": "2026-01-04 23:59:00",
+                                                "opened": true
+                                            },
+                                            "badges": {},
+                                            "isOpen": true,
+                                            "type": "F",
+                                            "badgesV2": {
+                                                "entityBadges": {
+                                                    "imageBased": {},
+                                                    "textBased": {},
+                                                    "textExtendedBadges": {}
+                                                }
+                                            },
+                                            "aggregatedDiscountInfoV3": {
+                                                "header": "ITEMS",
+                                                "subHeader": "AT ₹99"
+                                            },
+                                            "orderabilityCommunication": {
+                                                "title": {},
+                                                "subTitle": {},
+                                                "message": {},
+                                                "customIcon": {}
+                                            },
+                                            "differentiatedUi": {
+                                                "displayType": "ADS_UI_DISPLAY_TYPE_ENUM_DEFAULT",
+                                                "differentiatedUiMediaDetails": {
+                                                    "mediaType": "ADS_MEDIA_ENUM_IMAGE",
+                                                    "lottie": {},
+                                                    "video": {}
+                                                }
+                                            },
+                                            "reviewsSummary": {},
+                                            "displayType": "RESTAURANT_DISPLAY_TYPE_DEFAULT",
+                                            "restaurantOfferPresentationInfo": {},
+                                            "externalRatings": {
+                                                "aggregatedRating": {
+                                                    "rating": "--"
+                                                }
+                                            },
+                                            "ratingsDisplayPreference": "RATINGS_DISPLAY_PREFERENCE_SHOW_SWIGGY"
+                                        },
+                                        "analytics": {
+                                            "context": "seo-data-08203631-c585-4596-93bc-2e6869523382"
+                                        },
+                                        "cta": {
+                                            "link": "https://www.swiggy.com/city/nashik/oven-story-pizza-hatte-nagar-rest185804",
+                                            "text": "RESTAURANT_MENU",
+                                            "type": "WEBLINK"
+                                        },
+                                        "widgetId": "collectionV5RestaurantListWidget_SimRestoRelevance_food_seo"
+                                    }
+                                ];
 
 
 
