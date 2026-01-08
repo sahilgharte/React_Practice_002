@@ -175,8 +175,7 @@ AppLayout (Parent)
         └── Links
 
 ---
-
----
+</details>
 
 ###✅ Day 05: Let's Get Hooked 🪝
 Date: 8th Jan 2026
