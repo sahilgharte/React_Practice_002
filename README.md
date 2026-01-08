@@ -159,7 +159,6 @@ Today marked the shift from "Learning Syntax" to "Building Systems." We started 
 We visualized the application as a Tree of Components.
 
 **The App Layout:**
-```text
 AppLayout (Parent)
   ├── Header Component
   │     ├── Logo
