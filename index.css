@@ -16,11 +16,12 @@
 
 .header-logo img {
     border-radius: 50%;
+    transition: transform 0.5s ease-in-out;
     
 }
 
 .header-logo img:hover {
-    transform: scale(1.1);
+    transform: scale(1.1) rotate(30deg);
     transition: transform 0.3s;
     cursor: pointer;
 }
@@ -41,8 +42,9 @@
 }
 
 .header-ul li:hover {
-    color: #ff6347;
+    color: #4e9bff;
     transition: color 0.3s;
+
 }
 
 .body{
@@ -54,6 +56,24 @@
     padding: 10px;
     text-align: center;
     border-radius: 15px;
+}
+
+.body-filters {
+    text-align: center;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-bar button {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+    background-color: #4e9bff;
+    color: white;
+    cursor: pointer;
 }
 
 .search-bar {
@@ -81,13 +101,15 @@
     padding: 10px 12px;
     border-radius: 10px;
     border: none;
-    background-color: #ff6347;
+    background-color: #4e9bff;
     color: white;
     cursor: pointer;
     margin-left: 10px;
 }
 /* Commented out restaurant card container styles as added style object in the JS */
 .restaurant-card-container {
+    height: 320px;
+    width: 280px;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 10px;

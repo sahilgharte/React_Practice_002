@@ -1,0 +1,2 @@
+export const HEADER_LOGO_URL = "https://www.logo.wine/a/logo/React_(web_framework)/React_(web_framework)-Logo.wine.svg";
+export const IMAGE_CDN_URL = "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/";

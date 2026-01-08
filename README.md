@@ -176,9 +176,70 @@ AppLayout (Parent)
 
 ---
 
-### 🔜 Upcoming Goals
-- [ ] **Episode 4:** Talk is Cheap, Show me the Code (Components & Props).
-- [ ] **Episode 5:** Let's get Hooked (State & Hooks).
+✅ Day 05: Let's Get Hooked 🪝
+Date: 8th Jan 2026
 
----
-*Maintained by Sahil Gharte | 2026 SDE-2 Target* 🎯
+Transitioned from static, hardcoded data to dynamic data management using React Hooks. Explored the difference between the Data Layer and the UI Layer.
+
+🛠️ Key Concepts Mastered:
+[x] Exports:
+
+Default Export: export default Header; (One per file).
+
+Named Export: export const CDN_URL; (Multiple per file).
+
+[x] React Hooks (useState):
+
+Super-powerful utility functions given by React.
+
+Used to create local state variables that keep the UI in sync with data.
+
+[x] Virtual DOM & Reconciliation:
+
+Virtual DOM: A lightweight JavaScript Object that is a representation of the actual DOM.
+
+Reconciliation: The process (Diffing Algorithm) React uses to compare the New V-DOM with the Old V-DOM and update only what changed.
+
+🚀 Features Implemented:
+[x] Search Functionality (Controlled Component):
+
+Bound the input box to a state variable (searchText).
+
+Why? So React can control the input value, allowing features like "Reset" to clear the text programmatically.
+
+[x] Filter Logic:
+
+Implemented a "Top Rated Restaurants" button (Ratings > 4.3).
+
+Used the .filter() method to update the filteredRestaurants state.
+
+[x] Reset Logic:
+
+Created a Reset button that clears both the search text and the list filters simultaneously.
+
+<details> <summary><b>🧠 Click to see notes on Virtual DOM</b></summary>
+
+"The Virtual DOM prints the React Object."
+
+When we write <Body />, React compiles it into a JS Object.
+
+State Change (setSearchText) triggers a Re-render.
+
+React creates a New Virtual DOM tree.
+
+Diffing: React compares it with the Old Virtual DOM.
+
+Update: It updates only the DOM nodes that changed (e.g., the text inside the input box). This makes React extremely fast.
+
+</details>
+
+🔜 Upcoming Goals
+[x] Episode 4: Talk is Cheap, Show me the Code (Components & Props).
+
+[x] Episode 5: Let's get Hooked (State & Hooks).
+
+[ ] Episode 6: Exploring the World (Microservices, useEffect & API Calls).
+
+[ ] Episode 7: Finding the Path (React Router & SPA).
+
+Maintained by Sahil Gharte | 2026 SDE-2 Target 🎯
