@@ -176,7 +176,9 @@ AppLayout (Parent)
 
 ---
 
-✅ Day 05: Let's Get Hooked 🪝
+---
+
+###✅ Day 05: Let's Get Hooked 🪝
 Date: 8th Jan 2026
 
 Transitioned from static, hardcoded data to dynamic data management using React Hooks. Explored the difference between the Data Layer and the UI Layer.
