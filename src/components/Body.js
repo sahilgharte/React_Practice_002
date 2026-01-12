@@ -1,56 +1,88 @@
 import RestaurantCards from "./RestaurantCard";
-import { restaurantList } from "../utils.s/mockData";
-import { useState } from "react";
-
-// let filteredRestaurants = restaurantList;
-
-
+import { useEffect, useState } from "react";
+import Spinner from "./Spinner";
 
 const Body = () => {
+    // 1. Master Data State (Keeps the original copy)
+    const [listOfRestaurants, setListOfRestaurants] = useState([]);
+    
+    // 2. Filtered Data State (What is shown on UI)
+    const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+    
+    const [searchText, setSearchText] = useState("");
 
-            let [filteredRestaurants, setFilteredRestaurants] = useState(restaurantList);
-            let [searchText, setSearchText] = useState("");
+    // ✅ FIXED: Added dependency array []
+    useEffect(() => {
+        fetchApiData();
+    }, []);
+
+    const fetchApiData = async () => {
+        try {
+            const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING");
+            const json = await data.json();
+
+            // Optional Chaining to be safe
+            const restaurants = json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+            
+            // update BOTH states initially
+            setListOfRestaurants(restaurants);
+            setFilteredRestaurants(restaurants);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
+
+    // The code below this block won't run until data arrives.
+    if (listOfRestaurants.length === 0) {
+        return <Spinner />;
+    }
 
     return (
-
         <div className='body'>
-
             <div className='body-filters'>
-
-
                 <div className='filter-bar'>
                     <button type="button" onClick={() => {
-                        filteredRestaurants = restaurantList.filter(
-                            restaurant => restaurant.info.avgRating > 4.3
+                        // Filter from the MASTER copy (listOfRestaurants)
+                        const filtered = listOfRestaurants.filter(
+                            (res) => res.info.avgRating > 4.3
                         );
-                        setFilteredRestaurants(filteredRestaurants);
-                        console.log(filteredRestaurants);
-                    }} >Filter: Top Rated</button>
+                        setFilteredRestaurants(filtered);
+                    }}>
+                        Filter: Top Rated
+                    </button>
 
-                    <button style={{ marginLeft: "8px" }} type="button"  onClick={() => {
-                        filteredRestaurants = restaurantList.filter(() => restaurantList);
-                        setFilteredRestaurants(filteredRestaurants);
-                    
+                    <button style={{ marginLeft: "8px" }} type="button" onClick={() => {
+                        // Reset: Copy Master data back to Filtered data
+                        setFilteredRestaurants(listOfRestaurants);
                         setSearchText("");
-                    }} >Reset Filter</button>
-
+                    }}>
+                        Reset Filter
+                    </button>
                 </div>
-
 
                 <div className='search-bar'>
-                    <input value={searchText} type="text" placeholder='Search for restaurants, cuisines or a dish' onChange={(e) => setSearchText(e.target.value)  } />
+                    <input 
+                        value={searchText} 
+                        type="text" 
+                        placeholder='Search for restaurants...' 
+                        onChange={(e) => setSearchText(e.target.value)} 
+                    />
                     <button type="button" onClick={() => {
-                        filteredRestaurants = restaurantList.filter(restaurant => restaurant.info.name.toLowerCase().includes(searchText.toLowerCase()) || restaurant.info.cuisines.join(" ").toLowerCase().includes(searchText.toLowerCase()));
-                        setFilteredRestaurants(filteredRestaurants);
-                        console.log(setSearchText);
-                    }}>Search</button>
+                        // Filter from the MASTER copy (listOfRestaurants)
+                        const searchResult = listOfRestaurants.filter((res) => 
+                            res.info.name.toLowerCase().includes(searchText.toLowerCase()) || 
+                            res.info.cuisines.join(" ").toLowerCase().includes(searchText.toLowerCase())
+                        );
+                        setFilteredRestaurants(searchResult);
+                    }}>
+                        Search
+                    </button>
                 </div>
-
-
             </div>
 
             <div className='restaurant-cards'>
-                {filteredRestaurants.map(restaurant => (
+                {/* Always map the FILTERED state */}
+                {filteredRestaurants.map((restaurant) => (
                     <RestaurantCards key={restaurant.info.id} restaurant={restaurant.info} />
                 ))}
             </div>

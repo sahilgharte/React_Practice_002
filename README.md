@@ -216,6 +216,48 @@ When we write `<Body />`, React compiles it into a JS Object.
 
 ---
 
+### ✅ Day 06: Exploring the World 🌍
+**Date:** 9th Jan 2026
+
+Stepped out of the "Local" world and connected the app to the "Real" world using **Microservices** and **APIs**.
+
+#### 🛠️ Key Concepts Mastered:
+- [x] **Monolith vs Microservices:**
+    - **Monolith:** All code (UI, API, DB) in one project.
+    - **Microservices:** Different services (UI, Backend, Auth) running on different ports, talking via APIs.
+- [x] **The `useEffect` Hook:**
+    - Used to handle Side Effects (API calls, timers).
+    - **The Dependency Array `[]` Rule:**
+        - No Array: Runs every render (Potential Infinite Loop).
+        - Empty Array `[]`: Runs **once** on load (like `componentDidMount`).
+        - `[variable]`: Runs when `variable` changes.
+- [x] **Conditional Rendering:**
+    - **Spinner/Loader:** Created a CSS spinner to show while waiting for API data.
+    - **Shimmer UI:** (Concept) A better UX pattern that shows a skeleton layout instead of a loader.
+
+#### 🚀 Features Implemented:
+- [x] **Live API Integration:** Fetched data from Swiggy's public API using `fetch()` and `async/await`.
+- [x] **Loading State:** Implemented logic to display a **Spinner** component when `listOfRestaurants` is empty.
+- [x] **Dynamic Search Fix:**
+    - Created **two** state variables: `listOfRestaurants` (Master Copy) and `filteredRestaurants` (Display Copy).
+    - This fixed the bug where searching would delete the data permanently until refresh.
+- [x] **Login/Logout Button:** Added a button in the header that toggles text based on state.
+
+<details>
+<summary><b>🔄 Click to see notes on the "Infinite Loop" Trap</b></summary>
+
+If you update state inside `useEffect` without a dependency array, you create a death loop:
+1. Render Component.
+2. `useEffect` runs.
+3. API Call -> `setRestaurants`.
+4. State Update -> **Re-Render**.
+5. Go to Step 1.
+
+**Fix:** Pass `[]` as the second argument to `useEffect`.
+</details>
+
+---
+
 ### 🔜 Upcoming Goals
 - [x] **Episode 4:** Talk is Cheap, Show me the Code (Components & Props).
 - [x] **Episode 5:** Let's get Hooked (State & Hooks).
