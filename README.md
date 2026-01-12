@@ -259,10 +259,10 @@ If you update state inside `useEffect` without a dependency array, you create a 
 ---
 
 ### 🔜 Upcoming Goals
-- [x] **Episode 4:** Talk is Cheap, Show me the Code (Components & Props).
-- [x] **Episode 5:** Let's get Hooked (State & Hooks).
-- [ ] **Episode 6:** Exploring the World (Microservices, useEffect & API Calls).
-- [ ] **Episode 7:** Finding the Path (React Router & SPA).
+- [x] **Episode 6:** Exploring the World (Microservices, useEffect & API Calls).
+- [ ] **Episode 7:** Finding the Path (React Router DOM & SPA).
+- [ ] **Episode 8:** Let's get Classy (Class Components).
+- [ ] **Episode 9:** Optimizing our App (Custom Hooks & Lazy Loading).
 
 ---
 *Maintained by Sahil Gharte | 2026 SDE-2 Target* 🎯
