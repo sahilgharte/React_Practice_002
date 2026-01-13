@@ -231,17 +231,20 @@ Stepped out of the "Local" world and connected the app to the "Real" world using
         - No Array: Runs every render (Potential Infinite Loop).
         - Empty Array `[]`: Runs **once** on load (like `componentDidMount`).
         - `[variable]`: Runs when `variable` changes.
-- [x] **Conditional Rendering:**
-    - **Spinner/Loader:** Created a CSS spinner to show while waiting for API data.
-    - **Shimmer UI:** (Concept) A better UX pattern that shows a skeleton layout instead of a loader.
+- [x] **Controlled Components:**
+    - Bound the input box to `searchText` state.
+    - Learned that typing triggers a **State Change** -> **Re-render** cycle for every keystroke.
+- [x] **Debouncing:**
+    - Implemented a performance optimization to delay the search function until the user stops typing (using `setTimeout` & `useEffect` cleanup).
+- [x] **Shimmer UI:** Replaced the "Loading..." spinner with a professional Skeleton Loader for better UX.
 
 #### 🚀 Features Implemented:
 - [x] **Live API Integration:** Fetched data from Swiggy's public API using `fetch()` and `async/await`.
-- [x] **Loading State:** Implemented logic to display a **Spinner** component when `listOfRestaurants` is empty.
+- [x] **Shimmer Effect (CSS):** Implemented a pure CSS animation using `linear-gradient` and `@keyframes`.
+    - *Technique:* Used `Array.from({ length: 8 })` to render dummy cards.
 - [x] **Dynamic Search Fix:**
-    - Created **two** state variables: `listOfRestaurants` (Master Copy) and `filteredRestaurants` (Display Copy).
-    - This fixed the bug where searching would delete the data permanently until refresh.
-- [x] **Login/Logout Button:** Added a button in the header that toggles text based on state.
+    - Created **two** state variables: `listOfRestaurants` (Master Copy) and `filteredRestaurants` (Display Copy) to prevent data loss on search.
+- [x] **Login/Logout Button:** Added a button that toggles text based on state, triggering a component re-render.
 
 <details>
 <summary><b>🔄 Click to see notes on the "Infinite Loop" Trap</b></summary>
@@ -254,6 +257,39 @@ If you update state inside `useEffect` without a dependency array, you create a 
 5. Go to Step 1.
 
 **Fix:** Pass `[]` as the second argument to `useEffect`.
+</details>
+
+<details>
+<summary><b>✨ Click to see notes on Shimmer CSS Logic</b></summary>
+
+The Shimmer effect is an optical illusion created using CSS:
+1.  **Gradient:** `linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)` creates a light-dark-light band.
+2.  **Size:** `background-size: 200% 100%` makes the background double the width of the card.
+3.  **Animation:** `@keyframes` moves the background position from `200%` to `-200%`, making the "shine" slide across.
+</details>
+
+<details>
+<summary><b>🧩 Click to see: How can a `const` State variable change?</b></summary>
+
+We write `const [btnName, setBtnName] = useState("Login");`.
+Since `const` cannot be reassigned, how does it become "Logout"?
+
+**The Secret:** React re-calls the **entire Component Function**.
+1.  **Render 1:** `Header()` is called. `btnName` is created as "Login".
+2.  **Click:** `setBtnName("Logout")` triggers a re-render.
+3.  **Render 2:** `Header()` is called **again**. A **new** variable `btnName` is created as "Logout".
+</details>
+
+<details>
+<summary><b>⏳ Click to see notes on Debouncing</b></summary>
+
+**Problem:** Searching on every keystroke (`onChange`) triggers too many renders/API calls.
+**Solution:** Wait for the user to stop typing.
+```javascript
+useEffect(() => {
+   const timer = setTimeout(() => filterData(), 300);
+   return () => clearTimeout(timer); // Cleanup function cancels previous timer
+}, [searchText]);
 </details>
 
 ---

@@ -1,5 +1,12 @@
 import  {HEADER_LOGO_URL} from "../utils.s/constants";
+import React, {useState} from 'react';
 const Header = () => {
+
+     const [btnName, setBtnName] = useState("Login");
+
+
+     console.log("Header rendered");
+
     return (
         <div className='header-container'>
             <div className='header'>
@@ -14,6 +21,14 @@ const Header = () => {
                     <li>About</li>
                     <li>Contact</li>
                     <li>Cart</li>
+                    <li><button className="login-button" type="button" onClick={() => {
+                        console.log("Button clicked ", btnName);
+                        btnName === "Login" ? setBtnName("Logout") : setBtnName("Login");
+                        // alert("You clicked " + btnName + " button");
+                        // setBtnName(btnName);
+            
+                    
+                    }}>{btnName}</button></li>
                 </ul>
             </div>
         </div>

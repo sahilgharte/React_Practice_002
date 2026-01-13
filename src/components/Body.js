@@ -1,6 +1,7 @@
 import RestaurantCards from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
+import Shimmer from "./Shimmer";
 
 const Body = () => {
     // 1. Master Data State (Keeps the original copy)
@@ -11,10 +12,40 @@ const Body = () => {
     
     const [searchText, setSearchText] = useState("");
 
-    // ✅ FIXED: Added dependency array []
+
+
+
+// ⚡ DEBOUNCING LOGIC ⚡
+    useEffect(() => {
+        // 1. Set a timer to filter data after 300ms
+        const timer = setTimeout(() => {
+            console.log("Filtering for: " + searchText);
+
+            const searchResult = listOfRestaurants.filter((res) =>
+                res.info.name.toLowerCase().includes(searchText.toLowerCase()) ||
+                res.info.cuisines.join(" ").toLowerCase().includes(searchText.toLowerCase())
+            );
+            setFilteredRestaurants(searchResult);
+
+        }, 300); // 300 milliseconds delay
+
+        // 2. The Cleanup Function
+        // This runs if 'searchText' changes BEFORE the 300ms are up.
+        // It kills the previous timer so it never fires.
+        return () => {
+            clearTimeout(timer);
+        };
+
+    }, [searchText]); // Runs every time searchText changes
+
+        // ✅ FIXED: Added dependency array []
     useEffect(() => {
         fetchApiData();
     }, []);
+
+
+
+
 
     const fetchApiData = async () => {
         try {
@@ -32,12 +63,37 @@ const Body = () => {
         }
     }
 
-    // The code below this block won't run until data arrives.
-    if (listOfRestaurants.length === 0) {
-        return <Spinner />;
-    }
+    
 
-    return (
+    // The code below this block won't run until data arrives. 
+    // if (listOfRestaurants.length === 0) {
+    //     // return <Spinner />;
+    //     return (
+    //     <div className="shimmer-body">
+    //     <Shimmer />
+    //     <Shimmer />
+    //     <Shimmer />
+    //     <Shimmer />
+    //     <Shimmer />
+    //     <Shimmer />
+    //     <Shimmer />
+    //     <Shimmer />
+    
+    //     </div>
+    // );
+    // }
+
+    return listOfRestaurants.length === 0 ? (
+        <div className="shimmer-body">
+
+            {
+            Array(8).fill("").map((e, index) => (
+                <Shimmer key={index} />
+            ))
+            }
+
+        </div>
+    ):  (
         <div className='body'>
             <div className='body-filters'>
                 <div className='filter-bar'>
@@ -65,9 +121,11 @@ const Body = () => {
                         value={searchText} 
                         type="text" 
                         placeholder='Search for restaurants...' 
-                        onChange={(e) => setSearchText(e.target.value)} 
+                        onChange={(e) => { 
+                            console.log(e.target.value);
+                            setSearchText(e.target.value) }} 
                     />
-                    <button type="button" onClick={() => {
+                    {/* <button type="button" onClick={() => {
                         // Filter from the MASTER copy (listOfRestaurants)
                         const searchResult = listOfRestaurants.filter((res) => 
                             res.info.name.toLowerCase().includes(searchText.toLowerCase()) || 
@@ -76,7 +134,7 @@ const Body = () => {
                         setFilteredRestaurants(searchResult);
                     }}>
                         Search
-                    </button>
+                    </button> */}
                 </div>
             </div>
 

@@ -208,3 +208,49 @@
   100% { transform: rotate(360deg); }
 }
 
+/* Shimmer Effect Styles */
+
+.shimmer-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+}
+.shimmer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+.shimmer-card {
+  width: 280px;
+  height: 320px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  /* Width Height */
+  background-size: 200% 100%; 
+  animation: shimmer 1.5s infinite;
+}
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Login Button Styles */
+.login-button {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: none;
+  background-color: #4e9bff;
+  color: white;
+  cursor: pointer;
+}
