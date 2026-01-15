@@ -41,6 +41,11 @@
     font-size: 20px;
 }
 
+.header-ul a{
+    text-decoration: none;
+    color: inherit;
+}
+
 .header-ul li:hover {
     color: #4e9bff;
     transition: color 0.3s;
@@ -116,6 +121,9 @@
     padding: 15px;
     transition: transform 0.3s, box-shadow 0.3s;
     margin: 10px;
+    list-style: none;
+    list-style-type: none;
+    overflow: hidden;
 }
 
 .restaurant-card-container:hover{
@@ -254,3 +262,100 @@
   color: white;
   cursor: pointer;
 }
+
+.login-button:hover {
+  background-color: #3a7bd5;
+  transition: background-color 0.3s;
+}
+
+/* Error Component Styles */
+.error-container {
+  text-align: center;
+  margin-top: 50px;
+}   
+.error-container h2 {
+  font-size: 36px;
+  color: #ff4c4c;
+}
+.error-container p {
+  font-size: 18px;
+  color: #555;
+}
+.error-container a {
+  color: #4e9bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+.error-container a:hover {
+  text-decoration: underline;
+}
+/* Contact Component Styles */
+.contact-container {
+  text-align: center;
+  margin-top: 50px;
+}
+.contact-container h2 {
+  font-size: 32px;
+  color: #333;
+}
+.contact-container p {
+  font-size: 18px;  
+  color: #555;
+}
+/* Restaurant Menu Component Styles */
+.restaurant-menu-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.restaurant-menu-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.restaurant-menu-header h1 {
+  font-size: 28px;
+  color: #333;
+}
+.restaurant-menu-header p {
+  font-size: 16px;
+  color: #777;
+}
+.restaurant-menu-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+.restaurant-menu-item {
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  list-style: none;
+}
+.restaurant-menu-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+}
+.menu-item-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
+.menu-item-description {
+  font-size: 14px;
+  color: #555;
+  margin: 10px 0;
+}
+.menu-item-price {
+  font-size: 16px;
+  color: #4e9bff;
+  font-weight: bold;
+}
+
+.restaurant-menu-shimmer {
+  margin: 20px;
+}
+

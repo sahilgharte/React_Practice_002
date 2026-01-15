@@ -1,7 +1,7 @@
 # 🚀 Namaste React: Learning Log
 
 > **Goal:** Mastering React.js from the ground up.
-> **Status:** 🟢 Active | **Current Day:** 03
+> **Status:** 🟢 Active | **Current Day:** 07
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![Parcel](https://img.shields.io/badge/parcel-%23a6b39b.svg?style=for-the-badge&logo=parcel&logoColor=white) ![Babel](https://img.shields.io/badge/Babel-F9DC3E?style=for-the-badge&logo=babel&logoColor=white)
 
@@ -83,24 +83,6 @@ Moved from the "Hard Way" (`React.createElement`) to the "Developer Way" (**JSX*
 | **JS Logic** | Not possible | `{ expression }` | Power of JS inside HTML. |
 </details>
 
-<details>
-<summary><b>🧩 Click to see notes on Components</b></summary>
-
-- **Functional Component:** A normal JS function returning JSX. Must start with a **Capital Letter**.
-- **Composition:** `Container` renders `Title`. (`<Container><Title /></Container>`).
-- **⚠️ Anti-Pattern:**
-  - ✅ `<Title />`: React treats it as a Component (Hooks work).
-  - ❌ `{Title()}`: React treats it as a Function Call (Hooks break).
-</details>
-
-<details>
-<summary><b>🛡️ Click to see notes on Security (XSS)</b></summary>
-
-- **Scenario:** Hacker tries to inject `<script>stealData()</script>` via a variable.
-- **React's Defense:** React automatically **escapes** the string.
-- **Result:** It renders as harmless text, protecting the app from Cross-Site Scripting.
-</details>
-
 ---
 
 ### ✅ Day 04: Talk is Cheap, Show Me the Code
@@ -112,46 +94,9 @@ Today marked the shift from "Learning Syntax" to "Building Systems." We started 
 - [x] **Phase 1: Planning & Design:** Learned that coding is the *last* step. First comes the UI Mockup and Requirement Analysis.
 - [x] **Phase 2: Low-Level Design (LLD):** Breaking down the UI into a **Component Hierarchy**.
 - [x] **Phase 3: Code Structure:** Finalized the main layout (App Shell) which holds the application together.
-- [x] **Component Decomposition:** Split the "Monolith" into small, reusable parts.
-### 🚀 Progress
-- **Shifted to React:** Officially moved the development process to the React framework.
-- **UI Refresh:** Implemented initial UI changes and container structures using JSX.
-
-### 🧠 Key Learnings: Styling
-- **Inline Styling Mechanism:** - Learned that in React, the `style` attribute accepts a **JavaScript Object** instead of a CSS string.
-  - *Example:* Defined styles as variables in the script (e.g., `const containerStyle = { color: 'blue' }`) and assigned them to the `div`.
-
-- **⚠️ Best Practice Alert:** - While inline styling works for quick logic, I learned it is generally **not the preferred way** to write CSS in production.
-  - *Drawbacks:* It clutters the component code, causes performance issues on large renders, and lacks support for essential CSS features like Media Queries and Pseudo-classes (`:hover`, `:focus`).
-
-### 🔜 Next Steps
-- Explore better styling alternatives (CSS Modules or Tailwind) to fix the inline styling drawbacks.
-
-### 🧠 Core Concepts Learned
-- **Props (Properties):**
-  - **Mental Model:** Props are simply "arguments passed to a function."
-  - **Behavior:** They allow data to flow from Parent → Child and are **read-only** (immutable).
-  
-- **Config-Driven UI:**
-  - **Concept:** The UI structure is not hardcoded but dictated by the backend data (e.g., specific offers/layouts for different cities like Mumbai vs. Delhi).
-  - **Industry Standard:** This allows for dynamic updates without deploying new frontend code.
-
-- **List Rendering & Keys:**
-  - **The Rule:** Always pass a unique `key` prop when using `.map()`.
-  - **The "Why":** React's **Reconciliation Algorithm** uses keys to identify which specific items have changed, added, or removed.
-  - **Optimization:** Using unique IDs (from API) instead of Array Indexes prevents performance bottlenecks and unnecessary re-renders of the entire list.
-
-### 🛠️ Architecture & Code Changes
-- **API Integration (Swiggy):**
-  - Implemented the `fetch()` logic to consume live data from the Swiggy Public API.
-  - **Separation of Concerns:** Moved hardcoded URL strings to a dedicated `utils/constants.js` file to avoid magic strings in the codebase.
-
-- **Component Structure:**
-  - **Parent:** Fetches data and manages state.
-  - **Child (RestaurantCard):** Pure presentation component that receives data via `props`.
-
-### 📝 Note to Self
-> "Never use the array index as a key if the list order can change. Always use a unique ID."
+- [x] **Props (Properties):** Arguments passed to components; Immutable data flow (Parent → Child).
+- [x] **Config-Driven UI:** Using backend data to dictate frontend layout (e.g., Offers in different cities).
+- [x] **List Rendering (Keys):** Why using `key` (unique ID) is crucial for React's Reconciliation Algorithm performance.
 
 <details>
 <summary><b>📐 Click to see the Component Architecture</b></summary>
@@ -182,32 +127,16 @@ AppLayout (Parent)
 Transitioned from static, hardcoded data to dynamic data management using **React Hooks**. Explored the difference between the **Data Layer** and the **UI Layer**.
 
 #### 🛠️ Key Concepts Mastered:
-- [x] **Exports:**
-    - **Default Export:** `export default Header;` (One per file).
-    - **Named Export:** `export const CDN_URL;` (Multiple per file).
-- [x] **React Hooks (`useState`):**
-    - Super-powerful utility functions given by React.
-    - Used to create local state variables that keep the UI in sync with data.
-- [x] **Virtual DOM & Reconciliation:**
-    - **Virtual DOM:** A lightweight JavaScript Object that is a representation of the actual DOM.
-    - **Reconciliation:** The process (Diffing Algorithm) React uses to compare the *New V-DOM* with the *Old V-DOM* and update only what changed.
-
-#### 🚀 Features Implemented:
-- [x] **Search Functionality (Controlled Component):**
-    - Bound the input box to a state variable (`searchText`).
-    - **Why?** So React can control the input value, allowing features like "Reset" to clear the text programmatically.
-- [x] **Filter Logic:**
-    - Implemented a "Top Rated Restaurants" button (Ratings > 4.3).
-    - Used the `.filter()` method to update the `filteredRestaurants` state.
-- [x] **Reset Logic:**
-    - Created a Reset button that clears both the search text and the list filters simultaneously.
+- [x] **Exports:** Default (`export default`) vs Named (`export const`).
+- [x] **React Hooks (`useState`):** Powerful utility functions to sync local variables with the UI.
+- [x] **Virtual DOM & Reconciliation:** How React uses the Diffing Algorithm to update only changed nodes.
+- [x] **Search & Filter Logic:** Implemented searching logic using `.filter()` and updated state to reflect results.
 
 <details>
 <summary><b>🧠 Click to see notes on Virtual DOM</b></summary>
 
 **"The Virtual DOM prints the React Object."**
 
-When we write `<Body />`, React compiles it into a JS Object.
 1.  **State Change** (`setSearchText`) triggers a Re-render.
 2.  React creates a **New Virtual DOM** tree.
 3.  **Diffing:** React compares it with the Old Virtual DOM.
@@ -222,29 +151,13 @@ When we write `<Body />`, React compiles it into a JS Object.
 Stepped out of the "Local" world and connected the app to the "Real" world using **Microservices** and **APIs**.
 
 #### 🛠️ Key Concepts Mastered:
-- [x] **Monolith vs Microservices:**
-    - **Monolith:** All code (UI, API, DB) in one project.
-    - **Microservices:** Different services (UI, Backend, Auth) running on different ports, talking via APIs.
-- [x] **The `useEffect` Hook:**
-    - Used to handle Side Effects (API calls, timers).
-    - **The Dependency Array `[]` Rule:**
-        - No Array: Runs every render (Potential Infinite Loop).
-        - Empty Array `[]`: Runs **once** on load (like `componentDidMount`).
-        - `[variable]`: Runs when `variable` changes.
-- [x] **Controlled Components:**
-    - Bound the input box to `searchText` state.
-    - Learned that typing triggers a **State Change** -> **Re-render** cycle for every keystroke.
-- [x] **Debouncing:**
-    - Implemented a performance optimization to delay the search function until the user stops typing (using `setTimeout` & `useEffect` cleanup).
-- [x] **Shimmer UI:** Replaced the "Loading..." spinner with a professional Skeleton Loader for better UX.
-
-#### 🚀 Features Implemented:
-- [x] **Live API Integration:** Fetched data from Swiggy's public API using `fetch()` and `async/await`.
-- [x] **Shimmer Effect (CSS):** Implemented a pure CSS animation using `linear-gradient` and `@keyframes`.
-    - *Technique:* Used `Array.from({ length: 8 })` to render dummy cards.
-- [x] **Dynamic Search Fix:**
-    - Created **two** state variables: `listOfRestaurants` (Master Copy) and `filteredRestaurants` (Display Copy) to prevent data loss on search.
-- [x] **Login/Logout Button:** Added a button that toggles text based on state, triggering a component re-render.
+- [x] **Monolith vs Microservices:** Separation of concerns (UI, Backend, Auth).
+- [x] **The `useEffect` Hook:** Managing Side Effects.
+    - `[]`: Runs once (Component Did Mount).
+    - `[dep]`: Runs when dependency changes.
+- [x] **Debouncing:** Optimizing search performance to avoid excessive API calls.
+- [x] **Shimmer UI:** Replaced generic loaders with professional Skeleton Screens.
+- [x] **State Toggle:** Implemented Login/Logout toggle, learning how state updates trigger component re-renders.
 
 <details>
 <summary><b>🔄 Click to see notes on the "Infinite Loop" Trap</b></summary>
@@ -259,44 +172,70 @@ If you update state inside `useEffect` without a dependency array, you create a 
 **Fix:** Pass `[]` as the second argument to `useEffect`.
 </details>
 
-<details>
-<summary><b>✨ Click to see notes on Shimmer CSS Logic</b></summary>
+---
 
-The Shimmer effect is an optical illusion created using CSS:
-1.  **Gradient:** `linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)` creates a light-dark-light band.
-2.  **Size:** `background-size: 200% 100%` makes the background double the width of the card.
-3.  **Animation:** `@keyframes` moves the background position from `200%` to `-200%`, making the "shine" slide across.
+### ✅ Day 07: Finding the Path 🗺️
+**Date:** 15th Jan 2026
+
+Transformed the application from a simple one-page view into a fully navigable **Single Page Application (SPA)** using **React Router v6**. We learned how to manage URLs, create nested layouts, and handle errors gracefully without ever refreshing the browser.
+
+#### 🛠️ Key Concepts Mastered:
+- [x] **React Router DOM:**
+    - `createBrowserRouter`: Defining the map of the application.
+    - `RouterProvider`: The component that powers the routing.
+- [x] **SPA vs MPA Architecture:**
+    - **MPA (Multi-Page App):** Traditional. Reloads the entire page (HTML/CSS/JS) on every click.
+    - **SPA (Single Page App):** Modern. Loads once. Swaps components instantly. **No Reload.**
+- [x] **Routing Strategies:**
+    - **Server-Side Routing:** Browser talks to the server for every URL change.
+    - **Client-Side Routing:** React intercepts the URL and updates the DOM locally.
+- [x] **Nested Routing (`<Outlet />`):**
+    - Created a "Master Layout" where the **Header & Footer** stay fixed, and only the middle content changes.
+- [x] **New Hooks:**
+    - `useRouteError`: Catching 404s and API errors to show a custom "Oops!" page.
+    - `useParams`: Reading dynamic values from the URL (e.g., getting `123` from `/restaurants/123`).
+
+#### 🚀 Features Implemented:
+- [x] **Router Configuration:** Implemented `appRouter` with paths for Home, About, Contact, and Error.
+- [x] **Dynamic Restaurant Menu:**
+    - Created a dynamic route `/restaurants/:resId`.
+    - Clicking a card now takes the user to a specific Menu page.
+- [x] **Mock Data Fallback:**
+    - Bypassed Swiggy's API firewall (CORS blocking) by implementing a robust fallback strategy using local JSON data (`mockMenuData.json`).
+- [x] **Image Error Handling:**
+    - Added an auto-repair mechanism (`onError`) to swap broken images with a default placeholder instantly.
+- [x] **Safe Navigation:** Replaced all `<a>` tags with `<Link>` components to prevent page reloads.
+
+<details>
+<summary><b>🔌 Click to see notes on &lt;Link&gt; vs &lt;a&gt; tag</b></summary>
+
+| Feature | `<a>` Tag | `<Link>` Component |
+| :--- | :--- | :--- |
+| **Routing** | Server-Side | Client-Side |
+| **Behavior** | Full Page Refresh (White Flash) | No Refresh (Smooth DOM Swap) |
+| **State** | Resets all Redux/State variables | Preserves State |
+| **Use Case** | External Links (Google, Facebook) | Internal App Navigation |
+
+**Pro Tip:** `<Link>` is just a wrapper around `<a>`. It prevents the default browser behavior and uses the History API to change the URL.
 </details>
 
 <details>
-<summary><b>🧩 Click to see: How can a `const` State variable change?</b></summary>
+<summary><b>🛡️ Click to see notes on Bypassing API Blocks (CORS/WAF)</b></summary>
 
-We write `const [btnName, setBtnName] = useState("Login");`.
-Since `const` cannot be reassigned, how does it become "Logout"?
+**The Problem:** Swiggy's firewall (AWS WAF) detects `localhost` requests and returns `403 Forbidden` or `202 Accepted` HTML pages instead of JSON.
 
-**The Secret:** React re-calls the **entire Component Function**.
-1.  **Render 1:** `Header()` is called. `btnName` is created as "Login".
-2.  **Click:** `setBtnName("Logout")` triggers a re-render.
-3.  **Render 2:** `Header()` is called **again**. A **new** variable `btnName` is created as "Logout".
-</details>
-
-<details>
-<summary><b>⏳ Click to see notes on Debouncing</b></summary>
-
-**Problem:** Searching on every keystroke (`onChange`) triggers too many renders/API calls.
-**Solution:** Wait for the user to stop typing.
-```javascript
-useEffect(() => {
-   const timer = setTimeout(() => filterData(), 300);
-   return () => clearTimeout(timer); // Cleanup function cancels previous timer
-}, [searchText]);
+**The Fix (Mock Strategy):**
+Instead of fighting the firewall, we used a **Hybrid Approach**:
+1. Try to fetch from API.
+2. If it fails (or returns HTML), catch the error.
+3. Load data from `src/utils/mockMenuData.json` so development is never blocked.
 </details>
 
 ---
 
 ### 🔜 Upcoming Goals
 - [x] **Episode 6:** Exploring the World (Microservices, useEffect & API Calls).
-- [ ] **Episode 7:** Finding the Path (React Router DOM & SPA).
+- [x] **Episode 7:** Finding the Path (React Router DOM & SPA).
 - [ ] **Episode 8:** Let's get Classy (Class Components).
 - [ ] **Episode 9:** Optimizing our App (Custom Hooks & Lazy Loading).
 

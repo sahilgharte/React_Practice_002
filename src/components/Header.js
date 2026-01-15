@@ -1,8 +1,13 @@
-import  {HEADER_LOGO_URL} from "../utils.s/constants";
-import React, {useState} from 'react';
+import  {HEADER_LOGO_URL} from "../utils/constants";
+import React, {useState, useEffect} from 'react';
+import { Link } from "react-router";
 const Header = () => {
 
      const [btnName, setBtnName] = useState("Login");
+
+     useEffect(() => {
+        console.log("Header useEffect called");
+     }, []);
 
 
      console.log("Header rendered");
@@ -17,10 +22,10 @@ const Header = () => {
 
             <div className='header-title'>
                 <ul className='header-ul'>
-                    <li>Home</li>
-                    <li>About</li>
-                    <li>Contact</li>
-                    <li>Cart</li>
+                    <Link to="/"><li>Home</li></Link>
+                    <Link to="/about"><li>About</li></Link>
+                    <Link to="/contact"><li>Contact</li></Link>
+                    <Link to="/cart"><li>Cart</li></Link>
                     <li><button className="login-button" type="button" onClick={() => {
                         console.log("Button clicked ", btnName);
                         btnName === "Login" ? setBtnName("Logout") : setBtnName("Login");

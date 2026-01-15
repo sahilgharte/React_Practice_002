@@ -5,7 +5,11 @@ import ReactDOM from 'react-dom/client';
 import Header from './components/Header.js';
 import Body from './components/Body.js';
 import Footer from './components/Footer.js';
-
+import About from './components/About.js';
+import Contact from './components/Contact.js';
+import RestaurantMenu from './components/RestaurantMenu.js';
+import Error from './components/Error.js';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router';
 
 
 // Inline Style Object for Restaurant Card Container
@@ -25,16 +29,43 @@ const AppLayout = () => {
     return (
         <div className='app-container'>
             <Header />
-            <Body />
+            <Outlet />
+            {/* <Body /> */}
             <Footer />
         </div>
     )
 }
 
 
+const appRouter = createBrowserRouter([
+    {
+        path: "/",
+        element: <AppLayout />,
+        errorElement: <Error />,
+        children: [
+            {
+                path: "/about",
+                element: <About />,
+            },
+            {
+                path: "/contact",
+                element: <Contact />,
+            },
+            {
+                path: "/",
+                element: <Body />,
+            },
+            {
+                path: "/menu/:restaurantId",
+                element: <RestaurantMenu />,
+            }
+        ]
+    },
+]);
 
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-root.render(<AppLayout />);
+// root.render(<AppLayout />);
+root.render(<RouterProvider router={appRouter} />);
