@@ -45,7 +45,7 @@ const appRouter = createBrowserRouter([
         children: [
             {
                 path: "/about",
-                element: <About />,
+                element: <About information = {"From App.JS as props"} />,
             },
             {
                 path: "/contact",
