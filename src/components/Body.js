@@ -3,12 +3,11 @@ import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
 import Shimmer from "./Shimmer";
 import {Link, useRouteError} from 'react-router';
+import useRestaurantList from "../utils/useRestaurantList";
+import useDebounce from "../utils/useDebounce";
 
 const Body = () => {
-    // 1. Master Data State (Keeps the original copy)
-    const [listOfRestaurants, setListOfRestaurants] = useState([]);
 
-    // 2. Filtered Data State (What is shown on UI)
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
 
     const [searchText, setSearchText] = useState("");
@@ -20,101 +19,40 @@ const Body = () => {
     // You can also render an error message or component based on this error state
 
 
+    const listOfRestaurants = useRestaurantList();
+    // filteredRestaurants = listOfRestaurants;
 
-    // ⚡ DEBOUNCING LOGIC ⚡
+    console.log("listOfRestaurants -----> ", listOfRestaurants)
+
+    const debouncedSearchText = useDebounce(searchText, 300);
+
+    // 2. Sync Initial Data
     useEffect(() => {
-        // 1. Set a timer to filter data after 300ms
-        const timer = setTimeout(() => {
-            console.log("Filtering for: " + searchText);
+        if (listOfRestaurants.length > 0) {
+            setFilteredRestaurants(listOfRestaurants);
+        }
+    }, [listOfRestaurants]);
 
-            {if(listOfRestaurants.length != 0 && searchText != ""){
-                            const searchResult = listOfRestaurants.filter((res) =>
-                res.info.name.toLowerCase().includes(searchText.toLowerCase()) ||
-                res.info.cuisines.join(" ").toLowerCase().includes(searchText.toLowerCase())
+    // 3. Filtering Logic (Now triggered by the debounced value)
+    useEffect(() => {
+        // Only run if we have data
+        if (listOfRestaurants.length === 0) return;
+
+        console.log("Filtering for:", debouncedSearchText);
+
+        if (debouncedSearchText !== "") {
+            const searchResult = listOfRestaurants.filter((res) =>
+                res.info.name.toLowerCase().includes(debouncedSearchText.toLowerCase()) ||
+                res.info.cuisines.join(" ").toLowerCase().includes(debouncedSearchText.toLowerCase())
             );
             setFilteredRestaurants(searchResult);
-            }else{
-                {if(listOfRestaurants.length != 0){
-                    setFilteredRestaurants(listOfRestaurants);
-                }}
-            }}
-
-
-            // {if(searchText != ""){
-            //                 const searchResult = listOfRestaurants.filter((res) =>
-            //     res.info.name.toLowerCase().includes(searchText.toLowerCase()) ||
-            //     res.info.cuisines.join(" ").toLowerCase().includes(searchText.toLowerCase())
-            // );
-            // setFilteredRestaurants(searchResult);
-            // }else{
-            //     setFilteredRestaurants(listOfRestaurants);
-            // }}
-
-
-
-
-
-        }, 300); // 300 milliseconds delay
-
-        // 2. The Cleanup Function
-        // This runs if 'searchText' changes BEFORE the 300ms are up.
-        // It kills the previous timer so it never fires.
-        return () => {
-            clearTimeout(timer);
-        };
-
-    }, [searchText]); // Runs every time searchText changes
-
-
-
-    // ✅ FIXED: Added dependency array []
-    useEffect(() => {
-        fetchApiData();
-    }, []);
-
-
-
-
-
-
-    const fetchApiData = async () => {
-        try {
-            const data = await fetch("https://namastedev.com/api/v1/listRestaurants");
-            const json = await data.json();
-
-
-            // Optional Chaining to be safe
-            const restaurants = json?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
-
-               console.log("Fetched Data:", restaurants);
-
-            // update BOTH states initially
-            setListOfRestaurants(restaurants);
-            setFilteredRestaurants(restaurants);
-        } catch (error) {
-            console.log("Error fetching data:", error);
+        } else {
+            // If search box is cleared, reset to full list
+            setFilteredRestaurants(listOfRestaurants);
         }
-    }
 
+    }, [debouncedSearchText, listOfRestaurants]); // 👈 Logic depends on the Debounced Text
 
-
-    // The code below this block won't run until data arrives. 
-    // if (listOfRestaurants.length === 0) {
-    //     // return <Spinner />;
-    //     return (
-    //     <div className="shimmer-body">
-    //     <Shimmer />
-    //     <Shimmer />
-    //     <Shimmer />
-    //     <Shimmer />
-    //     <Shimmer />
-    //     <Shimmer />
-    //     <Shimmer />
-    //     <Shimmer />
-
-    //     </div>
-    // );
-    // }
 
     return listOfRestaurants.length === 0 ? (
         <div className="shimmer-body">

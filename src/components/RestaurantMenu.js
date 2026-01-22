@@ -2,35 +2,20 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import Spinner from "./Spinner";
 import Shimmer from "./Shimmer";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
+
 
 
 const RestaurantMenu = (props) => {
 
-    const [restaurantMenu, setRestaurantMenu] = useState(null);
-
+    // const [restaurantMenu, setRestaurantMenu] = useState(null);
     const {restaurantId} = useParams();
     console.log(restaurantId)
 
-    useEffect(() => {
-        console.log("RestaurantMenu component mounted");
+      const restaurantMenu = useRestaurantMenu(restaurantId);
 
-        const data = fetchMenuData(restaurantId); // Example restaurantId
-        console.log("Menu Data restaurantMenu --> :", restaurantMenu);
-        
-    }, []);
+      console.log("restaurantMenu --> ", restaurantMenu)
 
-    const fetchMenuData = async (restaurantId) => {
-        try {
-            const response = await fetch("https://namastedev.com/api/v1/listRestaurantMenu/" + restaurantId);
-            const jsonData = await response.json();
-            // console.log("Menu Data:", jsonData);
-            console.log("--->",jsonData.data.cards[4].groupedCard.cardGroupMap.REGULAR.cards[1].card.card.itemCards)
-            setRestaurantMenu(jsonData.data.cards[4].groupedCard.cardGroupMap.REGULAR.cards[1].card.card.itemCards);
-
-        } catch (error) {
-            console.error("Error fetching menu data:", error);
-        }
-    };
 
     if(restaurantMenu === null) {
         return (
