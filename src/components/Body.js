@@ -27,11 +27,32 @@ const Body = () => {
         const timer = setTimeout(() => {
             console.log("Filtering for: " + searchText);
 
-            const searchResult = listOfRestaurants.filter((res) =>
+            {if(listOfRestaurants.length != 0 && searchText != ""){
+                            const searchResult = listOfRestaurants.filter((res) =>
                 res.info.name.toLowerCase().includes(searchText.toLowerCase()) ||
                 res.info.cuisines.join(" ").toLowerCase().includes(searchText.toLowerCase())
             );
             setFilteredRestaurants(searchResult);
+            }else{
+                {if(listOfRestaurants.length != 0){
+                    setFilteredRestaurants(listOfRestaurants);
+                }}
+            }}
+
+
+            // {if(searchText != ""){
+            //                 const searchResult = listOfRestaurants.filter((res) =>
+            //     res.info.name.toLowerCase().includes(searchText.toLowerCase()) ||
+            //     res.info.cuisines.join(" ").toLowerCase().includes(searchText.toLowerCase())
+            // );
+            // setFilteredRestaurants(searchResult);
+            // }else{
+            //     setFilteredRestaurants(listOfRestaurants);
+            // }}
+
+
+
+
 
         }, 300); // 300 milliseconds delay
 
@@ -51,9 +72,6 @@ const Body = () => {
         fetchApiData();
     }, []);
 
-    useEffect(() => {
-
-    }, []);
 
 
 
@@ -64,10 +82,11 @@ const Body = () => {
             const data = await fetch("https://namastedev.com/api/v1/listRestaurants");
             const json = await data.json();
 
-            console.log("Fetched Data:", json);
 
             // Optional Chaining to be safe
             const restaurants = json?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+
+               console.log("Fetched Data:", restaurants);
 
             // update BOTH states initially
             setListOfRestaurants(restaurants);
@@ -77,53 +96,6 @@ const Body = () => {
         }
     }
 
-    const fetchMoreRestaurants = async () => {
-        // 1. The Payload (Your JSON Data)
-        // Note: specific values like 'nextOffset' usually change with every page load.
-        const payload = {
-            lat: 20.0395516,
-            lng: 73.8040126,
-            nextOffset: "CJhlELQ4KICQsIya2PjFDTCnEzgB", // ⚠️ This changes for Page 2, Page 3, etc.
-            widgetOffset: {
-                NewListingView_category_bar_chicletranking_TwoRows: "",
-                NewListingView_category_bar_chicletranking_TwoRows_Rendition: "",
-                Restaurant_Group_WebView_PB_Theme: "",
-                collectionV5RestaurantListWidget_SimRestoRelevance_food_seo: "39",
-                inlineFacetFilter: "",
-                restaurantCountWidget: ""
-            },
-            filters: {},
-            seoParams: {
-                seoUrl: "https://www.swiggy.com/restaurants",
-                pageType: "FOOD_HOMEPAGE",
-                apiName: "FoodHomePage",
-                businessLine: "FOOD"
-            },
-            page_type: "DESKTOP_WEB_LISTING",
-            _csrf: "uNIMAA10aQ9q-xs6F3GrpiUbQ49mKN4L6wczYEVM" // ⚠️ This might expire!
-        };
-
-        try {
-            // 2. The Fetch Call
-            const response = await fetch("https://www.swiggy.com/dapi/restaurants/list/update", {
-                method: "POST", // ⚡ Important: Swiggy's Update API uses POST
-                headers: {
-                    "Content-Type": "application/json",
-                    // You might need extra headers like User-Agent if it fails
-                },
-                body: JSON.stringify(payload), // ⚡ Convert Object -> String
-            });
-
-            const data = await response.json();
-            console.log("Updated Data:", data);
-
-            // 3. Logic to append new restaurants to your existing list
-            // setListOfRestaurants((prev) => [...prev, ...newData]);
-
-        } catch (error) {
-            console.error("Error fetching more restaurants:", error);
-        }
-    };
 
 
     // The code below this block won't run until data arrives. 

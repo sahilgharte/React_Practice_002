@@ -24,6 +24,7 @@ const RestaurantMenu = (props) => {
             const response = await fetch("https://namastedev.com/api/v1/listRestaurantMenu/" + restaurantId);
             const jsonData = await response.json();
             // console.log("Menu Data:", jsonData);
+            console.log("--->",jsonData.data.cards[4].groupedCard.cardGroupMap.REGULAR.cards[1].card.card.itemCards)
             setRestaurantMenu(jsonData.data.cards[4].groupedCard.cardGroupMap.REGULAR.cards[1].card.card.itemCards);
 
         } catch (error) {
