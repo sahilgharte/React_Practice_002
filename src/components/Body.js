@@ -13,6 +13,7 @@ const Body = () => {
     const [searchText, setSearchText] = useState("");
     const loadMoreData = 20;
 
+
     // Error Handling - Will only be triggered if there's an error in routing to this component
     const error = useRouteError();
     console.log("Body Error Message:", error);

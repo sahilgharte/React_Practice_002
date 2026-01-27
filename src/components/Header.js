@@ -1,9 +1,11 @@
 import  {HEADER_LOGO_URL} from "../utils/constants";
 import React, {useState, useEffect} from 'react';
 import { Link } from "react-router";
+import useOnlineStatus from "../utils/useOnlineStatus";
 const Header = () => {
 
      const [btnName, setBtnName] = useState("Login");
+     const isUserOnline = useOnlineStatus();
 
      useEffect(() => {
         console.log("Header useEffect called");
@@ -21,11 +23,13 @@ const Header = () => {
             </div>
 
             <div className='header-title'>
+
                 <ul className='header-ul'>
+                    <Link>{isUserOnline ? "🟢 Online" : "🔴 Offline"}   ||   </Link>
                     <Link to="/"><li>Home</li></Link>
                     <Link to="/about"><li>About</li></Link>
                     <Link to="/contact"><li>Contact</li></Link>
-                    <Link to="/cart"><li>Cart</li></Link>
+                    <Link to="/grocery"><li>Grocery</li></Link>
                     <li><button className="login-button" type="button" onClick={() => {
                         console.log("Button clicked ", btnName);
                         btnName === "Login" ? setBtnName("Logout") : setBtnName("Login");
