@@ -231,6 +231,82 @@ Instead of fighting the firewall, we used a **Hybrid Approach**:
 3. Load data from `src/utils/mockMenuData.json` so development is never blocked.
 </details>
 
+### ✅ Day 08: Let's Get Classy 🏛️
+**Date:** 16th Jan 2026
+
+Deep dived into the "Old Way" of writing React to understand the history and legacy codebases. We explored **Class Based Components** and how they handle the Component Lifecycle differently from Hooks.
+
+#### 🛠️ Key Concepts Mastered:
+- [x] **Class Components:** Understanding `extends React.Component`, the `render()` method, and the `this` keyword.
+- [x] **State Management (Old School):**
+    - `constructor(props)`: Initializing state.
+    - `super(props)`: Why we must call the parent constructor.
+    - `this.setState()`: Updating state (and how it triggers a re-render).
+- [x] **React Lifecycle Methods:**
+    - **Mounting:** `constructor` → `render` → `DOM Update` → `componentDidMount` (API Calls).
+    - **Updating:** `render` → `componentDidUpdate`.
+    - **Unmounting:** `componentWillUnmount` (Cleanup).
+- [x] **The Render vs Commit Phase:** How React batches updates for performance.
+
+<details>
+<summary><b>🔄 Click to see notes on The Lifecycle Hierarchy</b></summary>
+
+**Parent vs Child Order:**
+When a Parent component has multiple Children, React optimizes the process:
+1.  **Render Phase:** Parent `constructor` → Parent `render` → Child 1 `constructor` → Child 1 `render` → Child 2 `constructor` → Child 2 `render`.
+2.  **Commit Phase:** Child 1 `DidMount` → Child 2 `DidMount` → **Parent** `DidMount`.
+
+**Why?** React wants to calculate the entire Virtual DOM tree (fast) before touching the real DOM (slow).
+</details>
+
+<details>
+<summary><b>🪤 Click to see notes on The "Interval Trap"</b></summary>
+
+In Single Page Apps (SPA), navigating away from a page **does not** automatically stop background tasks.
+- **Problem:** If you start a `setInterval` in `componentDidMount` and don't stop it, it runs forever (Memory Leak).
+- **Solution:** You **must** use `clearInterval` inside `componentWillUnmount`.
+</details>
+
+---
+
+### ✅ Day 09: Optimizing our App ⚡
+**Date:** 17th Jan 2026
+
+Shifted focus from "Functionality" to **"Performance"**. We learned how to make the app scalable, modular, and fast by implementing industry-standard optimization techniques.
+
+#### 🛠️ Key Concepts Mastered:
+- [x] **Single Responsibility Principle (SRP):** Refactoring code so each component/function does exactly **one** thing.
+- [x] **Custom Hooks:**
+    - Extracting logic into reusable functions (e.g., `useRestaurantMenu`, `useOnlineStatus`).
+    - **Rule:** Custom hooks must always start with the word `use` (for Linter detection).
+- [x] **App Chunking (Code Splitting):**
+    - Breaking the single large `index.js` bundle into smaller logical chunks.
+    - Used `React.lazy()` for dynamic imports.
+- [x] **Lazy Loading & Suspense:**
+    - Loaded heavy components (like "Grocery") on-demand.
+    - Used `<Suspense fallback={<Shimmer />}>` to handle the loading state "gap".
+
+<details>
+<summary><b>🦖 Click to see notes on Custom Hooks logic</b></summary>
+
+We moved the API fetching logic **out** of the component.
+- **`useRestaurantMenu(resId)`**:
+    - *Input:* Restaurant ID.
+    - *Output:* Restaurant Data.
+    - *Benefit:* The Component doesn't care *how* data is fetched, only *that* it is fetched.
+</details>
+
+<details>
+<summary><b>🐢 Click to see notes on Testing Lazy Loading</b></summary>
+
+On local development, Lazy Loading is too fast to see the Fallback UI.
+**How to verify:**
+1. Open Chrome DevTools -> **Network Tab**.
+2. Change throttling to **"Slow 3G"**.
+3. Click the lazy-loaded link.
+4. Result: You will clearly see the `<Shimmer />` loading state.
+</details>
+
 ---
 
 ### 🔜 Upcoming Goals
