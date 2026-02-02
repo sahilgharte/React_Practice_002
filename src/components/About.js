@@ -5,48 +5,51 @@ import { Component } from "react";
 class About extends Component {
   constructor(props) {
     super(props);
-    console.log("About constructor");
+    // console.log("About constructor");
 
-     this.state = {
-      userInfo: ""
+    this.state = {
+      userInfo: "",
     };
   }
 
-async componentDidMount() {
-    console.log("About componentDidMount");
-    
+  async componentDidMount() {
+    // console.log("About componentDidMount");
+
     const data = await fetch("https://api.github.com/users/sahilgharte");
     const jsonUser = await data.json();
 
-    console.log("jsonUser --> ", jsonUser);
+    // console.log("jsonUser --> ", jsonUser);
 
-    // ✅ FIX: Use the correct key and variable name
     this.setState({
-        userInfo: jsonUser
+      userInfo: jsonUser,
     });
-}
-
-  componentDidUpdate() {
-    console.log("About componentDidUpdate");
-  }
-
-  componentWillUnmount() {
-    console.log("About componentWillUnmount");
-  }
-
-  componentDidCatch() {
-    console.log("About componentDidCatch");
   }
 
   render() {
+    // console.log("About render");
+
     return (
-      <div className="about-container">
-        <h1>About Us</h1>
-        <div>
-          <p>This is the about page of our application.</p>
-          <div className="about-component-container">
-            {/* <User {...this.userInfo}/> */}
-            <UserClass {...this.state.userInfo} />
+      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        {/* Main Content Card */}
+        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden p-8">
+          
+          {/* Header Section */}
+          <div className="text-center mb-10">
+            <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl mb-4">
+              About Us
+            </h1>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Welcome to our application! We are passionate about food and technology.
+              Here is the team behind this project.
+            </p>
+          </div>
+
+          {/* User Cards Container */}
+          <div className="flex flex-wrap justify-center gap-8">
+            {/* Passing data to Child Class Components */}
+            {/* <User {...this.state.userInfo} /> */}
+            
+            {/* Render a second one just for demo, or remove if not needed */}
             <UserClass {...this.state.userInfo} />
           </div>
         </div>
@@ -54,31 +57,5 @@ async componentDidMount() {
     );
   }
 }
-
-// const About = (props) => {
-
-//     console.log("Data From Another Component for ABout.js --> ",props.information)
-
-//     const userInfo = {
-//         name: "Sahil",
-//         location: "Bavdhan, Pune",
-//         role: "SDE",
-//         age: 25,
-//         email: "sahilgharte4@gmail"
-//     };
-
-//     return (
-//         <div className='about-container'>
-//                <h1>About Us</h1>
-//             <div>
-//             <p>This is the about page of our application.</p>
-//             <div className='about-component-container'>
-//                 <User {...userInfo}/>
-//                 <UserClass {...userInfo}/>
-//             </div>
-//             </div>
-//         </div>
-//     );
-// };
 
 export default About;

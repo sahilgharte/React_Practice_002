@@ -1,45 +1,28 @@
 import RestaurantCards from "./RestaurantCard";
 import { useEffect, useState } from "react";
-import Spinner from "./Spinner";
 import Shimmer from "./Shimmer";
-import {Link, useRouteError} from 'react-router';
+import { Link, useRouteError } from 'react-router'; // ✅ Fixed import
 import useRestaurantList from "../utils/useRestaurantList";
 import useDebounce from "../utils/useDebounce";
 
 const Body = () => {
-
+    // 1. State & Hooks
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
-
     const [searchText, setSearchText] = useState("");
-    const loadMoreData = 20;
-
-
-    // Error Handling - Will only be triggered if there's an error in routing to this component
     const error = useRouteError();
-    console.log("Body Error Message:", error);
-    // You can also render an error message or component based on this error state
-
-
     const listOfRestaurants = useRestaurantList();
-    // filteredRestaurants = listOfRestaurants;
-
-    console.log("listOfRestaurants -----> ", listOfRestaurants)
-
     const debouncedSearchText = useDebounce(searchText, 300);
 
-    // 2. Sync Initial Data
+    // 2. Sync Data
     useEffect(() => {
         if (listOfRestaurants.length > 0) {
             setFilteredRestaurants(listOfRestaurants);
         }
     }, [listOfRestaurants]);
 
-    // 3. Filtering Logic (Now triggered by the debounced value)
+    // 3. Filter Logic
     useEffect(() => {
-        // Only run if we have data
         if (listOfRestaurants.length === 0) return;
-
-        console.log("Filtering for:", debouncedSearchText);
 
         if (debouncedSearchText !== "") {
             const searchResult = listOfRestaurants.filter((res) =>
@@ -48,82 +31,89 @@ const Body = () => {
             );
             setFilteredRestaurants(searchResult);
         } else {
-            // If search box is cleared, reset to full list
             setFilteredRestaurants(listOfRestaurants);
         }
+    }, [debouncedSearchText, listOfRestaurants]);
 
-    }, [debouncedSearchText, listOfRestaurants]); // 👈 Logic depends on the Debounced Text
 
-
-    return listOfRestaurants.length === 0 ? (
-        <div className="shimmer-body">
-
-            {
-                Array(8).fill("").map((e, index) => (
+    // 4. Loading State (Shimmer)
+    if (listOfRestaurants.length === 0) {
+        return (
+            <div className="flex flex-wrap justify-center gap-6 mt-10">
+                {Array(10).fill("").map((e, index) => (
                     <Shimmer key={index} />
-                ))
-            }
+                ))}
+            </div>
+        );
+    }
 
-        </div>
-    ) : (
-        <div className='body'>
-
-            <div className='body-filters'>
-
-                <div className='filter-bar'>
-                    <button type="button" onClick={() => {
-                        // Filter from the MASTER copy (listOfRestaurants)
-                        const filtered = listOfRestaurants.filter(
-                            (res) => res.info.avgRating > 4.3
-                        );
-                        setFilteredRestaurants(filtered);
-                    }}>
-                        Filter: Top Rated
-                    </button>
-
-                    <button style={{ marginLeft: "8px" }} type="button" onClick={() => {
-                        // Reset: Copy Master data back to Filtered data
-                        setFilteredRestaurants(listOfRestaurants);
-                        setSearchText("");
-                    }}>
-                        Reset Filter
-                    </button>
-                </div>
-
-                <div className='search-bar'>
+    return (
+        <div className='body w-11/12 mx-auto mt-8 mb-10'>
+            
+            {/* --- Filter & Search Section --- */}
+            <div className='flex flex-col md:flex-row justify-between items-center mb-8 p-4 bg-gray-50 rounded-lg shadow-sm'>
+                
+                {/* Search Input */}
+                <div className='w-full md:w-1/3 mb-4 md:mb-0 relative'>
                     <input
                         value={searchText}
                         type="text"
                         placeholder='Search for restaurants...'
-                        onChange={(e) => {
-                            console.log(e.target.value);
-
-                            setSearchText(e.target.value)
-                        }}
+                        className="w-full p-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all"
+                        onChange={(e) => setSearchText(e.target.value)}
                     />
-                    {/* <button type="button" onClick={() => {
-                        // Filter from the MASTER copy (listOfRestaurants)
-                        const searchResult = listOfRestaurants.filter((res) => 
-                            res.info.name.toLowerCase().includes(searchText.toLowerCase()) || 
-                            res.info.cuisines.join(" ").toLowerCase().includes(searchText.toLowerCase())
-                        );
-                        setFilteredRestaurants(searchResult);
-                    }}>
-                        Search
-                    </button> */}
+                    <span className="absolute right-4 top-3 text-gray-400">🔍</span>
+                </div>
+
+                {/* Filter Buttons */}
+                <div className='flex gap-4'>
+                    <button 
+                        className="px-6 py-2 bg-white border border-gray-300 rounded-full hover:bg-gray-100 transition-colors text-sm font-medium text-gray-700 shadow-sm" 
+                        type="button" 
+                        onClick={() => {
+                            const filtered = listOfRestaurants.filter(
+                                (res) => res.info.avgRating > 4.3
+                            );
+                            setFilteredRestaurants(filtered);
+                        }}
+                    >
+                        ⭐ Top Rated
+                    </button>
+
+                    <button 
+                        className="px-6 py-2 bg-orange-500 text-white rounded-full hover:bg-orange-600 transition-colors text-sm font-medium shadow-md" 
+                        type="button" 
+                        onClick={() => {
+                            setFilteredRestaurants(listOfRestaurants);
+                            setSearchText("");
+                        }}
+                    >
+                        Reset
+                    </button>
                 </div>
             </div>
 
-            <div className='restaurant-cards'>
-                {/* Always map the FILTERED state */}
-                {filteredRestaurants.map((restaurant) => (
-                    <Link  key={restaurant.info.id} to={"/menu/"+restaurant.info.id}>
-                        <RestaurantCards restaurant={restaurant.info} />
-                    </Link>
-                ))}
-            </div>
+            {/* --- Restaurant Cards Grid --- */}
+            {filteredRestaurants.length === 0 ? (
+                <div className="text-center mt-20 text-gray-500">
+                    <h2 className="text-2xl font-bold">No Restaurants found</h2>
+                    <p>Try searching for something else.</p>
+                </div>
+            ) : (
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+                    {filteredRestaurants.map((restaurant) => (
+                        <Link 
+                            key={restaurant.info.id} 
+                            to={"/menu/" + restaurant.info.id}
+                            className="transform hover:scale-95 transition-transform duration-200"
+                        >
+                            <RestaurantCards restaurant={restaurant.info} />
+                        </Link>
+                    ))}
+                </div>
+            )}
         </div>
-    )
+    );
 }
 
 export default Body;
