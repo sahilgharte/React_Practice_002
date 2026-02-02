@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router'; // ✅ Fixed Import path
+import ThemeContext from './utils/ThemeContext.js';
 
 // --- Component Imports ---
 import Header from './components/Header.js';

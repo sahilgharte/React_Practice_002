@@ -13,7 +13,7 @@ const Header = () => {
   console.log("Header rendered");
 
   return (
-    <header className="flex bg-gray-50 justify-between items-center px-8 py-4 shadow-lg sticky top-0 z-50 border-amber-100 rounded-md">
+    <header className="flex bg-gray-50 justify-between items-center px-8 py-4 shadow-lg sticky top-0 z-50 border-amber-100 rounded-md  ">
       {/* --- Logo Section --- */}
       <div className="logo-container">
         <img
