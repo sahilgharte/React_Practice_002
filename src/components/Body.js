@@ -4,6 +4,7 @@ import Shimmer from "./Shimmer";
 import { Link, useRouteError } from 'react-router'; // ✅ Fixed import
 import useRestaurantList from "../utils/useRestaurantList";
 import useDebounce from "../utils/useDebounce";
+import VegNonVegLabel from "./VegNonVegLabel";
 
 const Body = () => {
     // 1. State & Hooks
@@ -46,6 +47,11 @@ const Body = () => {
             </div>
         );
     }
+
+
+    // Restaurant Cards Veg Non-Veg HOC
+    const RestaurantCardsWithLabel = VegNonVegLabel(RestaurantCards);
+
 
     return (
         <div className='body w-11/12 mx-auto mt-8 mb-10'>
@@ -107,7 +113,14 @@ const Body = () => {
                             to={"/menu/" + restaurant.info.id}
                             className="transform hover:scale-95 transition-transform duration-200"
                         >
-                            <RestaurantCards restaurant={restaurant.info} />
+
+                
+
+                            {/* <RestaurantCards restaurant={restaurant.info} /> */}
+                            <RestaurantCardsWithLabel restaurant={restaurant.info} />
+
+
+                            
                         </Link>
                     ))}
                 </div>

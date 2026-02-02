@@ -8,10 +8,14 @@ const RestaurantCards = (props) => {
         cuisines, 
         avgRating, 
         sla, 
-        costForTwo 
+        costForTwo ,
+        veg,
     } = props?.restaurant || {}; 
 
     const imageUrl = IMAGE_CDN_URL + cloudinaryImageId;
+
+    console.log({props})
+
 
     const handleImageError = (e) => {
         e.target.onerror = null; 
@@ -51,5 +55,7 @@ const RestaurantCards = (props) => {
         </div>
     )
 }
+
+
 
 export default RestaurantCards;

@@ -13,6 +13,8 @@ const useRestaurantList = () => {
       const data = await fetch(RESTAURANT_LIST_API);
       const json = await data.json();
 
+      console.log(json)
+
       // Optional Chaining to be safe
       const restaurants =
         json?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
