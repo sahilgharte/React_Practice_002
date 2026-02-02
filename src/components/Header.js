@@ -13,7 +13,7 @@ const Header = () => {
   console.log("Header rendered");
 
   return (
-    <header className="flex justify-between items-center px-8 py-4 shadow-lg sticky top-0 z-50 border-amber-100 rounded-md gray-bg">
+    <header className="flex bg-gray-50 justify-between items-center px-8 py-4 shadow-lg sticky top-0 z-50 border-amber-100 rounded-md">
       {/* --- Logo Section --- */}
       <div className="logo-container">
         <img
@@ -51,12 +51,10 @@ const Header = () => {
           {/* Login Button */}
           <li>
             <button
-              className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300 active:scale-95"
+              className="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-full shadow-sm transition-all duration-200 transform active:scale-95"
               type="button"
               onClick={() => {
-                btnName === "Login"
-                  ? setBtnName("Logout")
-                  : setBtnName("Login");
+                setBtnName(btnName === "Login" ? "Logout" : "Login");
               }}
             >
               {btnName}

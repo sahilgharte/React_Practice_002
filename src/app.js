@@ -1,53 +1,42 @@
-import React, {lazy, Suspense} from 'react';
+import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router'; // ✅ Fixed Import path
 
-// importing components
+// --- Component Imports ---
 import Header from './components/Header.js';
-// import Body from './components/Body.js';
 import Footer from './components/Footer.js';
-// import About from './components/About.js';
-// import Contact from './components/Contact.js';
-import RestaurantMenu from './components/RestaurantMenu.js';
 import Error from './components/Error.js';
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router';
+import RestaurantMenu from './components/RestaurantMenu.js';
 import Shimmer from './components/Shimmer.js';
 import Spinner from './components/Spinner.js';
-// import Grocery from './components/Grocery.js';
 
-// Lazy Loading || On-Demand loading || etc.
-// lazy comes from react package and it is a named package.
+// --- Lazy Loading Imports ---
 const Grocery = lazy(() => import("./components/Grocery.js"));
 const About = lazy(() => import("./components/About.js"));
 const Contact = lazy(() => import("./components/Contact.js"));
 const Body = lazy(() => import("./components/Body.js"));
 
-
-
-// Inline Style Object for Restaurant Card Container
-// const RestaurantCardContainerStyle = {
-//     display: 'inline-block',
-//     border: '1px solid #ccc',
-//     borderRadius: '10px',
-//     padding: '15px',
-//     transition: 'transform 0.3s, box-shadow 0.3s',
-//     margin: '10px',
-
-// } 
-
-
-// App Layout Component - Parent Component - would have 3 components header, body, footer.
+// --- App Layout Component ---
 const AppLayout = () => {
     return (
-        <div className='app-container'>
+        // 1. min-h-screen: Ensures app takes full height
+        // 2. flex-col: Stacks Header, Body, Footer vertically
+        // 3. bg-gray-50: Sets a light background for the whole app
+        <div className="min-h-screen flex flex-col bg-gray-50 font-sans text-gray-900">
+            
             <Header />
-            <Outlet />
-            {/* <Body /> */}
+            
+            {/* flex-grow: Pushes the Footer to the bottom */}
+            <main className="flex-grow">
+                <Outlet />
+            </main>
+            
             <Footer />
         </div>
     )
 }
 
-
+// --- Routing Configuration ---
 const appRouter = createBrowserRouter([
     {
         path: "/",
@@ -55,33 +44,48 @@ const appRouter = createBrowserRouter([
         errorElement: <Error />,
         children: [
             {
+                path: "/",
+                element: (
+                    <Suspense fallback={<div className="mt-20 flex justify-center"><Shimmer /></div>}>
+                        <Body />
+                    </Suspense>
+                ),
+            },
+            {
                 path: "/about",
-                element: <Suspense fallback={<Shimmer/>}><About information = {"From App.JS as props"} />,</Suspense>
+                element: (
+                    <Suspense fallback={<Shimmer />}>
+                        <About information={"From App.JS as props"} />
+                    </Suspense>
+                ),
             },
             {
                 path: "/contact",
-                element: <Suspense fallback={<Shimmer/>} ><Contact /></Suspense>,
-            },
-            {
-                path: "/",
-                element: <Suspense fallback={<Shimmer />}>
-                    <Body /> </Suspense>,
-            },
-            {
-                path: "/menu/:restaurantId",
-                element: <Suspense fallback={<Shimmer/>}><RestaurantMenu /></Suspense>,
+                element: (
+                    <Suspense fallback={<Shimmer />}>
+                        <Contact />
+                    </Suspense>
+                ),
             },
             {
                 path: "/grocery",
-                element: <Suspense fallback={<Spinner/>}><Grocery /></Suspense>,
-            }
+                element: (
+                    <Suspense fallback={<div className="mt-20 flex justify-center"><Spinner /></div>}>
+                        <Grocery />
+                    </Suspense>
+                ),
+            },
+            {
+                path: "/menu/:restaurantId",
+                element: (
+                    <Suspense fallback={<div className="mt-20 max-w-4xl mx-auto"><Shimmer /></div>}>
+                        <RestaurantMenu />
+                    </Suspense>
+                ),
+            },
         ]
     },
 ]);
 
-
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
-// root.render(<AppLayout />);
 root.render(<RouterProvider router={appRouter} />);
