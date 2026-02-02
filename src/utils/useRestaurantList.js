@@ -10,14 +10,14 @@ const useRestaurantList = () => {
 
   const fetchApiData = async () => {
     try {
-      const data = await fetch(RESTAURANT_LIST_API);
-      const json = await data.json();
+      const data = await fetch("https://corsproxy.io/?"+RESTAURANT_LIST_API);
+      const json = await data?.json();
 
       console.log(json)
 
       // Optional Chaining to be safe
       const restaurants =
-        json?.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+        json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
           ?.restaurants;
 
       console.log("Fetched Data: from useRestaurantList", restaurants);

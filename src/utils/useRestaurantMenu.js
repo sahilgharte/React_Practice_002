@@ -2,39 +2,29 @@ import { useEffect, useState } from "react";
 import { RESTAURANT_MENU_API } from "./constants";
 
 const useRestaurantMenu = (restaurantId) => {
-
-
-  const [restaurantInfo, setRestaurantInfo] = useState(null);
+  const [resInfo, setResInfo] = useState(null);
 
   useEffect(() => {
-    const data = fetchMenuData(restaurantId);
-    console.log("Menu Data restaurantInfo --> :", restaurantInfo);
-  }, []);
+    fetchMenuData();
+  }, [restaurantId]); // ✅ Dependency added
 
-
-  const fetchMenuData = async (restaurantId) => {
+  const fetchMenuData = async () => {
     try {
+      // ✅ Added Proxy to avoid CORS errors
       const response = await fetch(RESTAURANT_MENU_API + restaurantId);
-      const jsonData = await response.json();
+      const json = await response.json();
 
-      console.log(
-        "------------>",
-        jsonData.data.cards[4].groupedCard.cardGroupMap.REGULAR.cards[1].card
-          .card.itemCards
-      );
+      console.log("Full Menu API JSON:", json);
 
-      setRestaurantInfo(
-        jsonData.data.cards[4].groupedCard.cardGroupMap.REGULAR.cards[1].card
-          .card.itemCards
-      );
+      // ✅ Store the ROOT data. Let the component decide what to pick.
+      setResInfo(json.data);
+      
     } catch (error) {
       console.error("Error fetching menu data:", error);
     }
   };
 
-
-
-  return restaurantInfo;
+  return resInfo;
 };
 
 export default useRestaurantMenu;
